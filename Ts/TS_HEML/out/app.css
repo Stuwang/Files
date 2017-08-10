@@ -1,0 +1,24 @@
+table{
+	background-color: #ffffff;
+	color: #e21a1a;
+	font-size: 30px;
+	font-style: "微软雅黑";
+	line-height: 50px;
+
+	border-left-width: : 20px;
+	border-right-width: : 20px;
+	border-top-width: : 20px;
+	border-bottom-width: : : 20px;
+
+	margin: 20px;
+}
+th{
+	background-color: #000000;
+	width: 150px;
+	height: 60px;
+}
+tr{
+	border-top-width: : 2px;
+	background-color: #696464;
+	text-align: right;
+}
