@@ -10,8 +10,8 @@ class Program {
         // 	Program.tableInited_ = true;
         // }
         // };
-        table_sub.click();
-        Program.TestTextArea();
+        // table_sub.click();
+        // Program.TestTextArea();
         Program.testLiveData();
     }
 
