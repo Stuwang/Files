@@ -1,18 +1,54 @@
+class AsyncTest {
+    public static async TestAsync() {
+        let a = AsyncTest.PrintHello();
+        let b = await AsyncTest.getPosts();
+        await AsyncTest.delay(100);
+        console.log("TestAsync");
+    }
+
+    public static getPosts() {
+        return new Promise<Number>((resolve) => {
+            setTimeout(() => { 
+                resolve(10);
+                console.log("getPosts");
+            }, 3000);
+        });
+    }
+
+    public static async PrintHello() {
+        console.log("hello !");
+        return 1;
+    }
+
+    static delay(ms: number) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+}
+
+
 class Program {
 
     static tableInited_: Boolean = false;
 
+
+
     public static Run() {
+        AsyncTest.TestAsync();
+    }
+
+    public static TestDom(){
         let table_sub = document.getElementById("table1_sub") as HTMLInputElement;
         // table_sub.onclick = (e) => {
-        // 	if (!Program.tableInited_) {
+        //     if (!Program.tableInited_) {
         Program.AddTable();
-        // 	Program.tableInited_ = true;
+        //     Program.tableInited_ = true;
         // }
         // };
         table_sub.click();
         Program.TestTextArea();
         Program.testLiveData();
+
     }
 
     public static TestTextArea() {
@@ -122,7 +158,6 @@ class LiveData<T>{
         return this._data;
     }
 }
-
 
 window.onload = () => {
     Program.Run();
