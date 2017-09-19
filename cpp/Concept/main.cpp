@@ -4,10 +4,9 @@
 
 namespace cp {
 
-
 };
 
-template<cp::CopyAssignable T>
+template<cp::Lockable T>
 void f(T ) {};
 
 struct TestClass {
@@ -16,7 +15,7 @@ struct TestClass {
 	TestClass& operator=(const TestClass&) = default;
 	TestClass(const TestClass&&) {};
 	TestClass& operator=(const TestClass&&) {return *this;};
-	~TestClass(){};
+	~TestClass() {};
 
 	friend bool operator<(const TestClass&, const TestClass&) {
 		return true;
@@ -29,10 +28,19 @@ struct TestClass {
 	int operator()(int, int)const {};
 };
 
+struct LockStruct {
+	void lock() {};
+	void unlock();
+	bool try_lock() {return false;}
+};
+
 
 int main() {
-	TestClass t;
+	TestClass *t = 0;
 	std::string s = "";
-	f(t);
+	// f(t);
+
+	LockStruct lock;
+	f(lock);
 	// f(1);
 }

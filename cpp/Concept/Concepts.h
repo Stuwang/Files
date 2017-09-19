@@ -3,6 +3,7 @@
 
 #include <utility>
 #include <type_traits>
+#include <iterator>
 
 namespace cp {
 
@@ -70,11 +71,72 @@ concept bool CopyAssignable = requires(T l, const T& r) {
 };
 
 template<class T>
-const bool Iterator = requires(){
-	using value_type = typename std::iterator_traits<T>::value_type;
+concept bool Iterator = requires(T iter) {
+	typename std::iterator_traits<T>::value_type;
+	typename std::iterator_traits<T>::difference_type;
+	typename std::iterator_traits<T>::reference;
+	typename std::iterator_traits<T>::pointer;
+	typename std::iterator_traits<T>::iterator_category;
+	{ *iter } -> typename std::iterator_traits<T>::reference;
+	{ ++iter } -> T&;
+};
 
-	// value_type, difference_type, reference, pointer, and iterator_category 
-}
+template<class T>
+concept bool InputIterator = requires(T iter, T i) {
+	typename std::iterator_traits<T>::reference;
+	{ iter != i } -> bool ;
+	{ *iter } -> typename std::iterator_traits<T>::reference;
+	{ iter++ } -> const T&;
+	{ iter } -> typename std::iterator_traits<T>::pointer;
+	{ *i++ } -> typename std::iterator_traits<T>::value_type;
+} && Iterator<T> && EqualityComparable<T>;
+
+template<class T>
+concept bool OutputIterator = requires(T iter, T i,
+const typename std::iterator_traits<T>::reference data) {
+	{ *iter = data } -> typename std::iterator_traits<T>::reference;
+	{ *iter++ = data } -> typename std::iterator_traits<T>::reference;
+} && InputIterator<T>;
+
+template<class T>
+concept bool ForwardIterator = InputIterator<T> && DefaultConstructible<T>;
+
+template<class T>
+concept bool BidirectionalIterator = requires(T iter) {
+	{ --iter } -> T&;
+	{ iter-- } -> const T&;
+	{ *iter-- } -> typename std::iterator_traits<T>::value_type;
+} && ForwardIterator<T>;
+
+template<class T>
+concept bool RandomAccessIterator = requires(T iter, T i,
+typename std::iterator_traits<T>::difference_type n) {
+	typename std::iterator_traits<T>::difference_type;
+	{ iter += n } -> T&;
+	{ iter + n } -> T;
+	{ n + iter } -> T;
+	{ iter -= n } -> T&;
+	{ iter - n } -> T;
+	{ iter - i } -> typename std::iterator_traits<T>::difference_type;
+	{ iter[n] } -> typename std::iterator_traits<T>::reference;
+	{ iter < i } -> bool ;
+	{ iter <= i } -> bool ;
+	{ iter > i } -> bool ;
+	{ iter >= i } -> bool ;
+} && BidirectionalIterator<T>;
+
+template<class T>
+concept bool BasicLockable = requires(T mutex) {
+	{ mutex.lock() };
+	{ mutex.unlock() };
+};
+
+
+template<class T>
+concept bool Lockable = requires(T mutex) {
+	{ mutex.try_lock() } -> bool;
+} && BasicLockable<T>;
+
 
 };
 
