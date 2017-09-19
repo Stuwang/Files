@@ -20,7 +20,6 @@ func main() {
 	serveMux.HandleFunc("/ha", func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("hahahha,funny"))
 	})
-	// serveMux.HandleFunc("/static", StaticServer)
 
 	server := http.Server{
 		Addr:        ":8080",
@@ -29,15 +28,12 @@ func main() {
 	}
 
 	// log.Info("http server start,port is ", 8080)
-	log.Println("http server start,port is ", 8080)
 	err := server.ListenAndServe()
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	log.SetFlags(log.Ltime)
-
-	log.Println("haahahah")
 
 }
 
@@ -60,7 +56,6 @@ func StaticServer(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	log.Println("request file " + r.RequestURI)
 	http.StripPrefix("/",
 		http.FileServer(http.Dir(wd))).ServeHTTP(w, r)
 
