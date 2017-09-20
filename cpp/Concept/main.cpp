@@ -1,4 +1,5 @@
 #include <string>
+#include <vector>
 
 #include "Concepts.h"
 
@@ -6,7 +7,7 @@ namespace cp {
 
 };
 
-template<cp::Lockable T>
+template<cp::Continer T>
 void f(T ) {};
 
 struct TestClass {
@@ -41,6 +42,8 @@ int main() {
 	// f(t);
 
 	LockStruct lock;
-	f(lock);
+	// f(lock);
 	// f(1);
+	std::vector<char> v;
+	f(v);
 }

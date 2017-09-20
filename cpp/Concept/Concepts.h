@@ -10,6 +10,7 @@ namespace cp {
 template<typename T>
 concept bool EqualityComparable = requires(const T& a, const T& b) {
 	{ a == b } -> bool;
+	{ a != b } -> bool;
 };
 
 template<typename T>
@@ -136,6 +137,22 @@ template<class T>
 concept bool Lockable = requires(T mutex) {
 	{ mutex.try_lock() } -> bool;
 } && BasicLockable<T>;
+
+template<class C>
+concept bool Continer = requires(C c){
+	typename C::value_type;
+	typename C::reference;
+	typename C::const_reference;
+	typename C::iterator;
+	typename C::const_iterator;
+	typename C::difference_type;
+	typename C::size_type;
+	// { element } -> typename C::value_type;
+	{ c.begin() } -> typename C::iterator;
+	{ c.end() } -> typename C::iterator;
+	{ c.cbegin() } -> typename C::const_iterator;
+	{ c.cend() } -> typename C::const_iterator;
+};
 
 
 };
