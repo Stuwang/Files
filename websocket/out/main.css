@@ -1,0 +1,25 @@
+#all{
+	display: inline;
+	text-align: center;
+	width: auto;
+	height: auto;
+}
+
+#buttons {
+    text-align: center;
+    display: inline-block;
+    float: left;
+    width: 400px;
+    height: 400px;
+    background-color: #a1dca1;
+    margin-top: 0px;
+}
+
+#text {
+    text-align: center;
+    display: inline-block;
+    float: left;
+    width: auto;
+    height: auto;
+    /*background-color: #b9a9a9;*/
+}
