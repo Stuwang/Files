@@ -1,0 +1,6 @@
+[package]
+name = "study"
+version = "0.1.0"
+authors = ["王渊 <799086345@qq.com>"]
+
+[dependencies]

@@ -1,3 +1,5 @@
+import "electron";
+
 class AsyncTest {
     public static async TestAsync() {
         let a = AsyncTest.PrintHello();
@@ -22,6 +24,7 @@ class AsyncTest {
 
     static delay(ms: number) {
         return new Promise(resolve => setTimeout(resolve, ms));
+
     }
 
 }
