@@ -8,6 +8,7 @@ use std::io::prelude::*;
 use std::process::{Command, Stdio};
 
 use std::fs::File;
+use std::env;
 
 
 // 这是主（`main`）线程
@@ -164,7 +165,8 @@ pub fn UseCommandProcess() {
 }
 
 pub fn WaitProcess() {
-    let mut child = Command::new("sleep").arg("5").spawn().unwrap();
+    // let mut child = Command::new("dir").arg("5").spawn().unwrap();
+    let mut child = Command::new("dir").spawn().unwrap();
 
     let result = child.wait().unwrap();
 
@@ -220,4 +222,20 @@ pub fn CreateFile() {
         Err(why) => panic!("couldn't write to {}: {}", display, why.description()),
         Ok(_) => println!("successfully wrote to {}", display),
     }
+}
+
+
+/**
+ * @brief      this is used for get args
+ */
+pub fn UseArgs() {
+    let args: Vec<String> = env::args().collect();
+
+    // 第一个参数是调用本程序的路径
+    println!("My path is {}.\n", args[0]);
+
+    // 其余的参数充当一般的命令行参量。
+    // 调用程序方式如下：
+    //   $ ./args arg1 arg2
+    println!("I got {:?} arguments: {:?}.", args.len() - 1, &args[1..]);
 }
