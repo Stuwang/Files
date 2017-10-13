@@ -4,7 +4,6 @@ import (
 	"flag"
 	"log"
 	"net/http"
-	"runtime/debug"
 
 	"github.com/gorilla/websocket"
 )
@@ -40,8 +39,6 @@ func main() {
 	http.HandleFunc("/echo", echo)
 
 	var addr = flag.String("addr", "localhost:8080", "http service address")
-
-	debug.PrintStack()
 
 	http.Handle("/",
 		http.StripPrefix("/", http.FileServer(http.Dir(".\\out\\"))))
