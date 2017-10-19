@@ -12,6 +12,8 @@ macro_rules! create_function {
         }
     )
 }
+
+
 // 借助上述宏来创建名为 `foo` 和 `bar` 的函数。
 create_function!(foo);
 create_function!(bar);
@@ -58,6 +60,9 @@ pub fn example() {
     {
         println!("{}", find_min!(1u32));
         println!("{}", find_min!(1u32 + 2, 2u32));
+        println!("{}", find_min!(5u32, 2u32 * 3, 4u32));
+        println!("{}", find_min!(5u32, 2u32 * 3, 4u32));
+        println!("{}", find_min!(5u32, 2u32 * 3, 4u32));
         println!("{}", find_min!(5u32, 2u32 * 3, 4u32));
     }
 }
