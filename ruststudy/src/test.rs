@@ -30,3 +30,13 @@ pub fn test2() {
     // let mut closure = |x: usize| return vector.get_mut(x);
     println!("{}", "what the fuck!");
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    #[test]
+    fn test() {
+        test1();
+        test2();
+    }
+}

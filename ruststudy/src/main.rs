@@ -1,9 +1,9 @@
 mod test;
 mod stdMoudle;
-mod ErrorHandle;
-mod Function;
-mod Resource;
-use Resource::*;
+mod errorHandle;
+mod function;
+mod resource;
+mod marco;
 
 mod UseTraits;
 mod Marco;

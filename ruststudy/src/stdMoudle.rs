@@ -239,3 +239,37 @@ pub fn UseArgs() {
     //   $ ./args arg1 arg2
     println!("I got {:?} arguments: {:?}.", args.len() - 1, &args[1..]);
 }
+
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn name() {
+        RunThread();
+        UseSc();
+        UsePath();
+        UseCommand();
+        CreateFile();
+        UseArgs()
+    }
+
+    #[test]
+    #[should_panic]
+    fn test_error() {
+        UseCommandProcess();
+    }
+
+    #[test]
+    #[should_panic]
+    fn test_error2() {
+        OpenFile();
+    }
+
+    #[test]
+    #[should_panic]
+    fn test_error3() {
+        WaitProcess();
+    }
+}

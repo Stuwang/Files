@@ -22,3 +22,22 @@ pub fn UseResult() {
     let num = "t".parse::<i32>().unwrap();
     println!("num is {}", num);
 }
+
+#[cfg(test)]
+mod tests {
+
+    use super::*;
+
+    #[test]
+    #[should_panic]
+    fn test1() {
+        UseResult();
+    }
+
+    #[test]
+    #[should_panic]
+    fn test2() {
+        UseResult();
+    }
+
+}

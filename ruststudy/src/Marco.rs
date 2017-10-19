@@ -12,10 +12,12 @@ macro_rules! create_function {
         }
     )
 }
+
+
 // 借助上述宏来创建名为 `foo` 和 `bar` 的函数。
 create_function!(foo);
 create_function!(bar);
-    
+
 macro_rules! print_result {
     // 此宏接受一个 `expr` 类型的表达式，将它转换成一个字符串，
     // 并伴随着表达式的结果。
@@ -50,14 +52,27 @@ pub fn example() {
 
     // 回想一下，代码块也是表达式！
     print_result!({
-        let x = 1u32;
+                      let x = 1u32;
 
-        x * x + 2 * x - 1
-    });
+                      x * x + 2 * x - 1
+                  });
 
     {
-            println!("{}", find_min!(1u32));
-    println!("{}", find_min!(1u32 + 2 , 2u32));
-    println!("{}", find_min!(5u32, 2u32 * 3, 4u32));
+        println!("{}", find_min!(1u32));
+        println!("{}", find_min!(1u32 + 2, 2u32));
+        println!("{}", find_min!(5u32, 2u32 * 3, 4u32));
+        println!("{}", find_min!(5u32, 2u32 * 3, 4u32));
+        println!("{}", find_min!(5u32, 2u32 * 3, 4u32));
+        println!("{}", find_min!(5u32, 2u32 * 3, 4u32));
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test() {
+        example();
     }
 }
