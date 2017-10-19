@@ -5,6 +5,9 @@ mod Function;
 mod Resource;
 use Resource::*;
 
+mod UseTraits;
+mod Marco;
+
 fn main() {
     // println!("Hello, world!");
     // test::test2();
@@ -12,5 +15,7 @@ fn main() {
     // ErrorHandle::UseResult();
     // Function::ExampleAny();
 
-    UseAutoDes();
+    // UseAutoDes();
+    // UseTraits::Example();
+    Marco::example();
 }
