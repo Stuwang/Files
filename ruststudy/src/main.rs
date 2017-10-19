@@ -1,10 +1,9 @@
 mod test;
 mod stdMoudle;
-mod ErrorHandle;
-mod Function;
-mod Resource;
-use Resource::*;
-mod Marco;
+mod errorHandle;
+mod function;
+mod resource;
+mod marco;
 
 fn main() {
     // println!("Hello, world!");
@@ -14,5 +13,5 @@ fn main() {
     // Function::ExampleAny();
 
     // UseAutoDes();
-    Marco::example();
+    marco::example();
 }

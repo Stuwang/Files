@@ -1,4 +1,7 @@
-struct Sheep { naked: bool, name: &'static str }
+struct Sheep {
+    naked: bool,
+    name: &'static str,
+}
 
 trait Animal {
     // 静态方法标记；`Self` 表示实现者类型（implementor type）。
@@ -35,7 +38,10 @@ impl Sheep {
 impl Animal for Sheep {
     // `Self` 是该实现者类型：`Sheep`。
     fn new(name: &'static str) -> Sheep {
-        Sheep { name: name, naked: false }
+        Sheep {
+            name: name,
+            naked: false,
+        }
     }
 
     fn name(&self) -> &'static str {
@@ -49,7 +55,7 @@ impl Animal for Sheep {
             "baaaaah!"
         }
     }
-    
+
     // 默认 trait 方法可以重载。
     fn talk(&self) {
         // 例如完们可以增加一些安静的沉思（quiet contemplation）。
@@ -59,10 +65,20 @@ impl Animal for Sheep {
 
 pub fn Example() {
     // 这种情况需要类型标注。
-    let mut dolly :Sheep = Animal::new("Dolly");
+    let mut dolly: Sheep = Animal::new("Dolly");
     // 试一试 ^ 移除类型标注。
 
     dolly.talk();
     dolly.shear();
     dolly.talk();
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn name() {
+        Example();
+    }
 }

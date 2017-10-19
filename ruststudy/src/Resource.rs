@@ -24,7 +24,7 @@ impl Droppable {
     }
 }
 
-pub fn UseAutoDes() {
+pub fn use_auto_des() {
     // 在堆上分配一个整型数据
     let mut box1 = Box::new(Droppable { name: "a".to_string() });
 
@@ -50,13 +50,7 @@ pub fn UseAutoDes() {
     // `_box1` 在这里销毁，而且内存得到释放
 }
 
-
-
-
-
-
-
-pub mod refTest {
+pub mod ref_test {
 
 
     #[derive(Clone, Copy)]
@@ -65,7 +59,7 @@ pub mod refTest {
         y: i32,
     }
 
-    fn main() {
+    pub fn main() {
         let c = 'Q';
 
         // 赋值语句中左边的 `ref` 关键字等价右边的 `&` 符号。
@@ -119,5 +113,27 @@ pub mod refTest {
         println!("tuple is {:?}", mutable_tuple);
     }
 
+    #[cfg(test)]
+    mod tests {
+
+        use super::*;
+
+        #[test]
+        fn name() {
+            main();
+        }
+
+    }
+}
+
+#[cfg(test)]
+mod tests {
+
+    use super::*;
+
+    #[test]
+    fn name() {
+        use_auto_des();
+    }
 
 }

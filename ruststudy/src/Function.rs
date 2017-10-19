@@ -106,6 +106,7 @@ pub fn UseGeneralFunction() {
     // 试一试 ^ 将此行注释去掉
 }
 
+
 pub fn UseClosure() {
     println!("this is a function study closure");
     // 通过闭包和函数实现增量。
@@ -264,4 +265,20 @@ pub fn ExampleAny() {
     println!("2 in {:?}: {}", array1, array1.iter().any(|&x| x == 2));
     // 对数组的 `into_iter()` 通常产出 `&i32`。
     println!("2 in {:?}: {}", array2, array2.into_iter().any(|&x| x == 2));
+}
+
+#[cfg(test)]
+mod tests {
+
+    use super::*;
+
+    #[test]
+    fn test() {
+        UseGeneralFunction();
+        UseClosure();
+        ClosureMoveAndCopy();
+        UseClosureTraits();
+        ReturnClosure();
+        ExampleAny();
+    }
 }

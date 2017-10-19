@@ -66,3 +66,13 @@ pub fn example() {
         println!("{}", find_min!(5u32, 2u32 * 3, 4u32));
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test() {
+        example();
+    }
+}
