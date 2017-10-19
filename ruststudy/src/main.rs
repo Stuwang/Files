@@ -4,6 +4,7 @@ mod ErrorHandle;
 mod Function;
 mod Resource;
 use Resource::*;
+mod Marco;
 
 fn main() {
     // println!("Hello, world!");
@@ -12,5 +13,6 @@ fn main() {
     // ErrorHandle::UseResult();
     // Function::ExampleAny();
 
-    UseAutoDes();
+    // UseAutoDes();
+    Marco::example();
 }
