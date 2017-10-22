@@ -3,10 +3,11 @@ mod stdMoudle;
 mod errorHandle;
 mod function;
 mod resource;
-mod marco;
 
-mod UseTraits;
-mod Marco;
+mod useTraits;
+mod marco;
+mod link_pre;
+mod link;
 
 fn main() {
     // println!("Hello, world!");
@@ -17,5 +18,6 @@ fn main() {
 
     // UseAutoDes();
     // UseTraits::Example();
-    Marco::example();
+    // marco::example();
+    link_pre::test();
 }

@@ -201,7 +201,8 @@ pub fn ClosureMoveAndCopy() {
 
 // 将闭包作为参数并调用它的函数。
 fn apply<F>(f: F)
-    where F: FnOnce()
+where
+    F: FnOnce(),
 {
     // ^ 试一试：将 `FnOnce` 换成 `Fn` 或 `FnMut`。
 
@@ -210,7 +211,8 @@ fn apply<F>(f: F)
 
 // 使用闭包并返回一个 `i32` 整型的函数。
 fn apply_to_i<F>(f: F, i: i32) -> i32
-    where F: Fn(i32) -> i32
+where
+    F: Fn(i32) -> i32,
 {
 
     f(i)
@@ -218,12 +220,16 @@ fn apply_to_i<F>(f: F, i: i32) -> i32
 
 pub fn UseClosureTraits() {
     apply(|| println!("once"));
-    println!("{}",
-             apply_to_i(|i| {
-                            println!("{}", i + 3);
-                            i * 2
-                        },
-                        100));
+    println!(
+        "{}",
+        apply_to_i(
+            |i| {
+                println!("{}", i + 3);
+                i * 2
+            },
+            100,
+        )
+    );
 }
 
 fn create_fn() -> Box<Fn()> {
@@ -254,9 +260,11 @@ pub fn ExampleAny() {
     // `&i32`）。解构成 `i32` 类型。
     println!("2 in {:?}: {}", vec1.clone(), vec1.iter().any(|&x| x == 2));
     // 对 vec 的 `into_iter()` 产出 `i32` 类型。无需解构。
-    println!("2 in {:?}: {}",
-             vec2.clone(),
-             vec2.into_iter().any(|x| x == 2));
+    println!(
+        "2 in {:?}: {}",
+        vec2.clone(),
+        vec2.into_iter().any(|x| x == 2)
+    );
 
     let array1 = [1, 2, 3];
     let array2 = [4, 5, 6];
