@@ -1,54 +1,71 @@
-import "electron";
+// import "electron";
 
-class AsyncTest {
-    public static async TestAsync() {
-        let a = AsyncTest.PrintHello();
-        let b = await AsyncTest.getPosts();
-        await AsyncTest.delay(100);
-        console.log("TestAsync");
-    }
+// class AsyncTest {
+//     public static async TestAsync() {
+//         let a = AsyncTest.PrintHello();
+//         let b = await AsyncTest.getPosts();
+//         await AsyncTest.delay(100);
+//         console.log("TestAsync");
+//     }
 
-    public static getPosts() {
-        return new Promise<Number>((resolve) => {
-            setTimeout(() => { 
-                resolve(10);
-                console.log("getPosts");
-            }, 3000);
-        });
-    }
+//     public static getPosts() {
+//         return new Promise<Number>((resolve) => {
+//             setTimeout(() => { 
+//                 resolve(10);
+//                 console.log("getPosts");
+//             }, 3000);
+//         });
+//     }
 
-    public static async PrintHello() {
-        console.log("hello !");
-        return 1;
-    }
+//     public static async PrintHello() {
+//         console.log("hello !");
+//         return 1;
+//     }
 
-    static delay(ms: number) {
-        return new Promise(resolve => setTimeout(resolve, ms));
+//     static delay(ms: number) {
+//         return new Promise(resolve => setTimeout(resolve, ms));
 
-    }
+//     }
 
+// }
+
+
+class Map{
+    [key:string]:any;
 }
-
 
 class Program {
 
     static tableInited_: Boolean = false;
 
+    public static test_nap(){
+        let m = new Map();
+        m["a"] = 1;
+        m["b"] = 2;
+        m["c"] = 3;
+        m["d"] = 4;
+        m["e"] = 5;
 
+        for(var i in m){
+            console.log(i," ",m[i]);
+        }
+    }
 
     public static Run() {
-        AsyncTest.TestAsync();
+        // AsyncTest.TestAsync();
+        Program.AddTable();
+        Program.test_nap();
     }
 
     public static TestDom(){
         let table_sub = document.getElementById("table1_sub") as HTMLInputElement;
-        // table_sub.onclick = (e) => {
-        //     if (!Program.tableInited_) {
-        Program.AddTable();
-        //     Program.tableInited_ = true;
-        // }
-        // };
-        // table_sub.click();
+        table_sub.onclick = (e) => {
+            if (!Program.tableInited_) {
+                Program.AddTable();
+                    Program.tableInited_ = true;
+            }
+        };
+        table_sub.click();
         // Program.TestTextArea();
         Program.testLiveData();
 
