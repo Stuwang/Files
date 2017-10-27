@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<!-- saved from url=(0022)http://love.eamonn.cn/ -->
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>KM's Love Story</title>
+    
+    <style type="text/css">
+        @font-face {
+            font-family: digit;
+            src: url('digital-7_mono.ttf') format("truetype");
+        }
+    </style>
+    <link href="./love/default_dev.css" type="text/css" rel="stylesheet">
+    <script type="text/javascript" src="./love/jquery.js"></script>
+    <script type="text/javascript" src="./love/garden.js"></script>
+    <script type="text/javascript" src="./love/functions_dev.js"></script>
+</head>
+
+<body>
+    <div id="mainDiv">
+        <div id="content" style="width: 670px; height: 625px; margin-top: 10px; margin-left: 267px;">
+<!--             <div id="code">
+				<span class="space"/><span>蒙蒙，时间过得好快，想想我们都认识快七年了。</span><br />
+				<span class="space"/><span>记得刚认识你的时候，</span><br />
+				<span class="space"/><span>那时的我怎么也不敢想后来我们能相爱，还能一直相爱到今天。</span><br />
+				<span class="space"/><span>其实，遇到你之前，我根本不知道什么是爱情，</span><br />
+				<span class="space"/><span>现在我知道了，爱情可能就是</span><br />
+				<span class="space"/><span>此时此刻我坐在这里敲键盘，老婆在那里看电视剧，</span><br />
+				<span class="space"/><span>看似各做其事，但心里都装着对方，这种感觉很温暖，很幸福。</span><br />
+				<span class="space"/><span>昨天我去找老婆的时候，</span><br />
+				<span class="space"/><span>老婆打扮的好漂亮，好美，甚至美的有点儿陌生</span><br />
+				<span class="space"/><span>但是当我们坐在公交车里，我和老婆一起说话，一起谈心的时候</span><br />
+				<span class="space"/><span>我的心突然释然了，感觉老婆还是我的那个老婆，</span><br />
+				<span class="space"/><span>不管外表怎么变化，我喜欢的永远是骨子里的那个你。</span><br />
+				<span class="space"/><span>当你说我如果去工地，我该变黑了，你肯定不喜欢我了，</span><br />
+				<span class="space"/><span>傻丫头，我爱的是你，不是你的肤色，不是你的容颜，</span><br />
+				<span class="space"/><span>就如同你爱我，爱的不是我的钱，不是我的身高一样</span><br />
+				<span class="space"/><span>马上就到老婆的生日了，</span><br />
+				<span class="space"/><span>说来也巧，老天好像故意把我们绑在了一起，</span><br />
+				<span class="space"/><span>我们在一起，真的是天意，哈哈</span><br />
+				<span class="space"/><span>这是跟老婆在一起过的第四个生日，想想真的很遗憾，</span><br />
+				<span class="space"/><span>老婆前面的生日我都没有给老婆过，</span><br />
+				<span class="space"/><span>但是我会陪着老婆过今后的每一个生日。</span><br />
+				<span class="space"/><span>老婆，我不会说我会一辈子对你好，</span><br />
+				<span class="space"/><span>因为如果有下辈子，我还会对你好。</span><br />
+				<span class="space"/><span>老婆，生日快乐！</span><br />
+				<span class="space"/><span>我爱你。</span><br />
+				<span class="big-space"/><span>——爱你的老公敬上 2016.05.03</span><br />
+			</div> -->
+            <div id="loveHeart">
+                <canvas id="garden" width="670" height="625"></canvas>
+                <div id="words">
+                    <div id="messages">
+                        QY, We have been in love for
+                        <div id="elapseClock"><span class="digit">1773</span> days <span class="digit">13</span> hours <span class="digit">17</span> minutes <span class="digit">32</span> seconds</div>
+                    </div>
+                    <div id="loveu">
+                        Love you forever.<br>
+                        <div class="signature">- WY</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        var offsetX = $("#loveHeart").width() / 2;
+        var offsetY = $("#loveHeart").height() / 2;
+        var together = new Date("2017-10-01 20:00:00");
+                
+        if (!document.createElement('canvas').getContext) {
+            var msg = document.createElement("div");
+            msg.id = "errorMsg";
+            msg.innerHTML = "Your browser doesn't support HTML5!<br/>Recommend use Chrome 14+/IE 9+/Firefox 7+/Safari 4+";
+            document.body.appendChild(msg);
+            $("#code").css("display", "none")
+            document.execCommand("stop");
+        } else {
+
+            // setTimeout(function() {
+            startHeartAnimation();
+            // }, 72000);
+
+            timeElapse(together);
+            setInterval(function() {
+                timeElapse(together);
+            }, 500);
+
+            adjustCodePosition();
+            // $("#code").typewriter();
+            $('body').scrollTop($('body').height());
+        }
+    </script>
+
+
+</body></html>
