@@ -18,7 +18,9 @@ pub fn RunThread() {
 
     for i in 0..10 {
         // 启动（spin up）另一个线程
-        children.push(thread::spawn(move || println!("this is thread number {}", i)));
+        children.push(thread::spawn(
+            move || println!("this is thread number {}", i),
+        ));
     }
 
 
@@ -27,12 +29,6 @@ pub fn RunThread() {
         let _ = child.join();
     }
 }
-
-
-/**
- * this is a example use spec
- */
-
 
 pub fn UseSc() {
     // 通道有两个端点：`Sender<T>` 和 `Receiver<T>`，其中 `T` 是要发送
@@ -82,10 +78,6 @@ pub fn UseSc() {
 }
 
 
-
-/**
- * @brief      this is a ecample use path
- */
 pub fn UsePath() {
     // 从 `&'static str` 创建一个 `Path`
     let path = Path::new(".");
@@ -104,10 +96,6 @@ pub fn UsePath() {
     }
 }
 
-
-/**
- * @brief      this run a command
- */
 pub fn UseCommand() {
     let output = Command::new("rustc")
         .arg("--version")
@@ -131,9 +119,9 @@ pub fn UseCommand() {
 pub fn UseCommandProcess() {
     // 触发 `wc` 命令（原文：Spawn the `wc` command）
     let process = match Command::new("wc")
-              .stdin(Stdio::piped())
-              .stdout(Stdio::piped())
-              .spawn() {
+        .stdin(Stdio::piped())
+        .stdout(Stdio::piped())
+        .spawn() {
         Err(why) => panic!("couldn't spawn wc: {}", why.description()),
         Ok(process) => process,
     };
@@ -225,9 +213,6 @@ pub fn CreateFile() {
 }
 
 
-/**
- * @brief      this is used for get args
- */
 pub fn UseArgs() {
     let args: Vec<String> = env::args().collect();
 

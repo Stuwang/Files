@@ -52,10 +52,10 @@ pub fn example() {
 
     // 回想一下，代码块也是表达式！
     print_result!({
-                      let x = 1u32;
+        let x = 1u32;
 
-                      x * x + 2 * x - 1
-                  });
+        x * x + 2 * x - 1
+    });
 
     {
         println!("{}", find_min!(1u32));

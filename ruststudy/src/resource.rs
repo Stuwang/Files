@@ -97,9 +97,11 @@ pub mod ref_test {
         }
 
         println!("point is ({}, {})", point.x, point.y);
-        println!("mutable_point is ({}, {})",
-                 mutable_point.x,
-                 mutable_point.y);
+        println!(
+            "mutable_point is ({}, {})",
+            mutable_point.x,
+            mutable_point.y
+        );
 
         // 包含一个指针的可变元组
         let mut mutable_tuple = (Box::new(5u32), 3u32);
