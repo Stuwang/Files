@@ -66,11 +66,11 @@ lexer = lex.lex()
 
 def all(p):
 	''' all : define
- 			| define ';' all
+			| define all
 	 '''
 
-def define(p):
-	"define :  function "
+# def define(p):
+# 	"define :  function "
 
 # def p_struct(p):
 # 	"structexpr : TYPE_DEFINE NAME STRUCT '{' s_member_list '}' "
@@ -83,23 +83,14 @@ def define(p):
 
 # function decl
 def p_func_binop(p):
-    "function : FUNC  NAME '(' paramlist ')' returnexpr "
+    "function : FUNC NAME '(' paramlist ')' returnexpr "
     print("function name :",p[2]);
-
-def p_func_noreturn_binop(p):
-    "function : FUNC  NAME '(' paramlist ')'"
-    print("function name :",p[2]);
-
-def p_func_noarg_binop(p):
-    "function : FUNC  NAME '(' ')' ':' returnexpr "
-    print("function name :",p[2]);
-
-def p_func_noreturn_and_noarg_binop(p):
-    "function : FUNC  NAME '(' ')'"
-    print("noreturn_and_noar")
 
 def p_paramlist(p):
 	" paramlist : param ',' paramlist "
+
+def p_noparamlist(p):
+	" paramlist : "
 
 def p_paramlist_last(p):
 	" paramlist : param "
@@ -112,11 +103,16 @@ def p_returnexpr(p):
 	"returnexpr : TYPE"
 	print("return type :",p[1]);
 
+def p_no_returnexpr(p):
+	"returnexpr : "
+	print("no return type :");
+
 # function decl end
 
 def p_error(p):
     if p:
         print("Syntax error at '%s'" % p.value)
+        print(p);
     else:
         print("Syntax error at EOF")
 
@@ -124,45 +120,36 @@ def p_error(p):
 yacc.yacc()
 
 
-data = '''
+data =(
+'''func fun(a:int) int
 
 func functin1(
 	a:int,
 	b:char,
 	c:string,
 	d:double,
-	e:bin) int ;
-
-
-func functin2( 
-	a:int,
-	b:char,
-	c:string,
-	d:double,
-	e:bin) int;
- 
-func functin3(
-	a:int,
-	b:char,
-	c:string,
-	d:double,
 	e:bin) int
 
-'''
+
+func Function3(a:int) int
+
+func Function3(a:int) int
+
+func Function3(a:int) int
+
+''')
 
 # data = '''
 
-
 # type MyType struct {
 # 	a:int
-# 	b:char
 # 	c:string
 # 	d:double
 # 	e:bin
 # }
 # '''
 
-PrintTokens = False
+PrintTokens = True
 lexer.input(data)
 if PrintTokens == True :
 	lexer.input(data)
@@ -175,10 +162,10 @@ if PrintTokens == True :
 
 yacc.parse(data)
 
-while 1:
-    try:
-        s = input('calc > ')
-    except EOFError:
-        break
-    if not s: continue
-    yacc.parse(s)
+# while 1:
+#     try:
+#         s = input('calc > ')
+#     except EOFError:
+#         break
+#     if not s: continue
+#     yacc.parse(s)
