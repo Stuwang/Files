@@ -64,13 +64,19 @@ lexer = lex.lex()
 # 	('left',';'),
 #     )
 
-def all(p):
-	''' all : define
-			| define all
-	 '''
+# def p_all(p):
+# 	''' all : define
+#  			| define ';' all 
+# 	'''
 
-# def define(p):
-# 	"define :  function "
+def p_define(p):
+	'''define : functionlist '''
+
+def p_functionlist(p):
+	'''functionlist : function ';' functionlist '''
+
+def p_functionlist_1(p):
+	'''functionlist : function ';' '''
 
 # def p_struct(p):
 # 	"structexpr : TYPE_DEFINE NAME STRUCT '{' s_member_list '}' "
@@ -117,7 +123,7 @@ def p_error(p):
         print("Syntax error at EOF")
 
 
-yacc.yacc()
+yacc.yacc(debug=True)
 
 
 data =(
@@ -128,14 +134,13 @@ func functin1(
 	b:char,
 	c:string,
 	d:double,
-	e:bin) int
+	e:bin) char ;
 
+func Function3(a:int) int ;
 
-func Function3(a:int) int
+func Function3(a:int) int ;
 
-func Function3(a:int) int
-
-func Function3(a:int) int
+func Function3(a:int) int ;
 
 ''')
 
@@ -160,7 +165,17 @@ if PrintTokens == True :
 	    print(tok)
 	print("token parse ok!");
 
-yacc.parse(data)
+
+import logging
+logging.basicConfig(
+    level = logging.DEBUG,
+    filename = "parselog.txt",
+    filemode = "w",
+    format = "%(message)s"
+)
+log = logging.getLogger()
+
+yacc.parse(data,debug=log)
 
 # while 1:
 #     try:
