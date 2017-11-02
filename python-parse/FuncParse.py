@@ -175,10 +175,10 @@ if PrintTokens == True :
 
 yacc.parse(data)
 
-while 1:
-    try:
-        s = input('calc > ')
-    except EOFError:
-        break
-    if not s: continue
-    yacc.parse(s)
+# while 1:
+#     try:
+#         s = input('calc > ')
+#     except EOFError:
+#         break
+#     if not s: continue
+#     yacc.parse(s)
