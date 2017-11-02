@@ -5,9 +5,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = "NAME FUNC TYPE STRUCT TYPE_DEFINEfunction : FUNC  NAME '(' paramlist ')' returnexpr function : FUNC  NAME '(' paramlist ')'function : FUNC  NAME '(' ')' ':' returnexpr function : FUNC  NAME '(' ')' paramlist : param ',' paramlist  paramlist : param  param : NAME ':' TYPE returnexpr : TYPE"
+_lr_signature = "NAME FUNC TYPE STRUCT TYPE_DEFINE all : define \n                | define all \n        define : function\n                    | structexpr\n         structexpr : TYPE_DEFINE NAME STRUCT '{' s_member_list '}'  s_member_list : param s_member_list \n                        | param \n        function : FUNC NAME '(' paramlist ')' returnexpr  paramlist : param ',' paramlist  paramlist :  paramlist : param  param : NAME ':' TYPE returnexpr : TYPEreturnexpr : "
     
-_lr_action_items = {')':([4,7,8,15,17,],[5,11,-6,-7,-5,]),'$end':([2,5,11,13,14,16,],[0,-4,-2,-3,-8,-1,]),'NAME':([1,4,12,],[3,6,6,]),'FUNC':([0,],[1,]),',':([8,15,],[12,-7,]),'TYPE':([9,10,11,],[14,15,14,]),':':([5,6,],[9,10,]),'(':([3,],[4,]),}
+_lr_action_items = {'(':([7,],[10,]),':':([13,],[17,]),'FUNC':([0,2,5,6,18,23,24,25,],[3,-4,-3,3,-14,-8,-13,-5,]),'TYPE':([17,18,],[22,24,]),'TYPE_DEFINE':([0,2,5,6,18,23,24,25,],[4,-4,-3,4,-14,-8,-13,-5,]),',':([12,22,],[16,-12,]),'STRUCT':([8,],[11,]),'}':([19,20,22,26,],[25,-7,-12,-6,]),'{':([11,],[15,]),'NAME':([3,4,10,15,16,20,22,],[7,8,13,13,13,13,-12,]),')':([10,12,14,16,21,22,],[-10,-11,18,-10,-9,-12,]),'$end':([1,2,5,6,9,18,23,24,25,],[0,-4,-3,-1,-2,-14,-8,-13,-5,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -16,7 +16,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'function':([0,],[2,]),'returnexpr':([9,11,],[13,16,]),'param':([4,12,],[8,8,]),'paramlist':([4,12,],[7,17,]),}
+_lr_goto_items = {'all':([0,6,],[1,9,]),'s_member_list':([15,20,],[19,26,]),'returnexpr':([18,],[23,]),'function':([0,6,],[5,5,]),'define':([0,6,],[6,6,]),'structexpr':([0,6,],[2,2,]),'param':([10,15,16,20,],[12,20,12,20,]),'paramlist':([10,16,],[14,21,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -25,13 +25,19 @@ for _k, _v in _lr_goto_items.items():
        _lr_goto[_x][_k] = _y
 del _lr_goto_items
 _lr_productions = [
-  ("S' -> function","S'",1,None,None,None),
-  ('function -> FUNC NAME ( paramlist ) returnexpr','function',6,'p_func_binop','FuncParse.py',86),
-  ('function -> FUNC NAME ( paramlist )','function',5,'p_func_noreturn_binop','FuncParse.py',90),
-  ('function -> FUNC NAME ( ) : returnexpr','function',6,'p_func_noarg_binop','FuncParse.py',94),
-  ('function -> FUNC NAME ( )','function',4,'p_func_noreturn_and_noarg_binop','FuncParse.py',98),
-  ('paramlist -> param , paramlist','paramlist',3,'p_paramlist','FuncParse.py',102),
-  ('paramlist -> param','paramlist',1,'p_paramlist_last','FuncParse.py',105),
-  ('param -> NAME : TYPE','param',3,'p_param','FuncParse.py',108),
-  ('returnexpr -> TYPE','returnexpr',1,'p_returnexpr','FuncParse.py',112),
+  ("S' -> all","S'",1,None,None,None),
+  ('all -> define','all',1,'p_all','FuncParse.py',72),
+  ('all -> define all','all',2,'p_all','FuncParse.py',73),
+  ('define -> function','define',1,'p_define','FuncParse.py',77),
+  ('define -> structexpr','define',1,'p_define','FuncParse.py',78),
+  ('structexpr -> TYPE_DEFINE NAME STRUCT { s_member_list }','structexpr',6,'p_struct','FuncParse.py',82),
+  ('s_member_list -> param s_member_list','s_member_list',2,'p_s_member_list','FuncParse.py',86),
+  ('s_member_list -> param','s_member_list',1,'p_s_member_list','FuncParse.py',87),
+  ('function -> FUNC NAME ( paramlist ) returnexpr','function',6,'p_func_binop','FuncParse.py',91),
+  ('paramlist -> param , paramlist','paramlist',3,'p_paramlist','FuncParse.py',95),
+  ('paramlist -> <empty>','paramlist',0,'p_noparamlist','FuncParse.py',98),
+  ('paramlist -> param','paramlist',1,'p_paramlist_last','FuncParse.py',101),
+  ('param -> NAME : TYPE','param',3,'p_param','FuncParse.py',104),
+  ('returnexpr -> TYPE','returnexpr',1,'p_returnexpr','FuncParse.py',108),
+  ('returnexpr -> <empty>','returnexpr',0,'p_no_returnexpr','FuncParse.py',112),
 ]

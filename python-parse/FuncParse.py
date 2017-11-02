@@ -10,50 +10,53 @@ import ply.yacc as yacc
 
 # 词法分析部分
 
-# 特殊的字符，从标识符中区分
-reserved = {
-   'func' : 'FUNC',
-   'int' : 'TYPE',
-   'char' : 'TYPE',
-   'string' : 'TYPE',
-   'double' : 'TYPE',
-   'bin' : 'TYPE',
-   'struct': "STRUCT",
-   'type': "TYPE_DEFINE"
-}
-
 # TOKEN 类型
-tokens = [
-    'NAME','FUNC','TYPE','STRUCT','TYPE_DEFINE'
-    ];
+tokens = ['NAME','FUNC','TYPE','STRUCT','TYPE_DEFINE'];
 
-# 字面值？。 忽略
-literals = ['(',')',':',',','{','}',';','=']
+def MyLexBuild():
 
-# Tokens
+    # 特殊的字符，从标识符中区分
+    reserved = {
+    # key word
+       'func' : 'FUNC',
+    # base type
+       'int' : 'TYPE',
+       'char' : 'TYPE',
+       'string' : 'TYPE',
+       'double' : 'TYPE',
+       'bin' : 'TYPE',
+    # struct
+       'struct': "STRUCT",
+    # type
+       'type': "TYPE_DEFINE"
+    }
 
-# t_FUNC   = r'func'
-# t_TYPE   = r'int|char|string|double|bin|void'
-# t_NAME   = r'[a-zA-Z][a-zA-Z0-9_]*'
+    # 字面值？。 忽略
+    literals = ['(',')',':',',','{','}',';','=']
 
-# 定义规则，同时做特殊处理
-def t_NAME(t):
-    r'[a-zA-Z][a-zA-Z0-9_]*'
-    t.type = reserved.get(t.value,'NAME') 
-    return t;
+    # Tokens
+    # t_FUNC   = r'func'
+    # t_TYPE   = r'int|char|string|double|bin|void'
+    # t_NAME   = r'[a-zA-Z][a-zA-Z0-9_]*'
 
-# manul s
-t_ignore = " ;\t"
+    # 定义规则，同时做特殊处理
+    def t_NAME(t):
+        r'[a-zA-Z][a-zA-Z0-9_]*'
+        t.type = reserved.get(t.value,'NAME') 
+        return t;
 
-def t_newline(t):
-    r'\n+'
-    t.lexer.lineno += t.value.count("\n")
-    
-def t_error(t):
-    print("Illegal character '%s'" % t.value[0])
-    t.lexer.skip(1)
+    # manul s
+    t_ignore = " \t"
 
-lexer = lex.lex()
+    def t_newline(t):
+        r'\n+'
+        t.lexer.lineno += t.value.count("\n")
+        
+    def t_error(t):
+        print("Illegal character '%s'" % t.value[0])
+        t.lexer.skip(1)
+
+    return lex.lex(optimize=1)
 
 # yacc
 # 语法分析部分
@@ -61,119 +64,118 @@ lexer = lex.lex()
 # precedence = (
 #     ('left',','),
 #     ('left',':'),
-# 	('left',';'),
+#   ('left',';'),
 #     )
 
-def all(p):
-	''' all : define
- 			| define ';' all
-	 '''
+def MyYacc(tokens = None):
+    def p_all(p):
+        ''' all : define 
+                | define all 
+        '''
 
-def define(p):
-	"define :  function "
+    def p_define(p):
+        '''define : function
+                    | structexpr
+         '''
+         
+    def p_struct(p):
+        "structexpr : TYPE_DEFINE NAME STRUCT '{' s_member_list '}' "
+        print("struct :",p[2]);
 
-# def p_struct(p):
-# 	"structexpr : TYPE_DEFINE NAME STRUCT '{' s_member_list '}' "
-# 	print("struct :",p[2]);
+    def p_s_member_list(p):
+        ''' s_member_list : param s_member_list 
+                        | param 
+        '''
+    # function decl
+    def p_func_binop(p):
+        "function : FUNC NAME '(' paramlist ')' returnexpr "
+        print("function name :",p[2]);
 
-# def p_s_member_list(p):
-# 	''' s_member_list : param  s_member_list 
-# 					| param 
-# 	'''
+    def p_paramlist(p):
+        " paramlist : param ',' paramlist "
 
-# function decl
-def p_func_binop(p):
-    "function : FUNC  NAME '(' paramlist ')' returnexpr "
-    print("function name :",p[2]);
+    def p_noparamlist(p):
+        " paramlist : "
 
-def p_func_noreturn_binop(p):
-    "function : FUNC  NAME '(' paramlist ')'"
-    print("function name :",p[2]);
+    def p_paramlist_last(p):
+        " paramlist : param "
+        
+    def p_param(p):
+        " param : NAME ':' TYPE "
+        print("name:",p[1],"type:",p[3]);
 
-def p_func_noarg_binop(p):
-    "function : FUNC  NAME '(' ')' ':' returnexpr "
-    print("function name :",p[2]);
+    def p_returnexpr(p):
+        "returnexpr : TYPE"
+        print("return type :",p[1]);
 
-def p_func_noreturn_and_noarg_binop(p):
-    "function : FUNC  NAME '(' ')'"
-    print("noreturn_and_noar")
+    def p_no_returnexpr(p):
+        "returnexpr : "
+        print("no return type :");
 
-def p_paramlist(p):
-	" paramlist : param ',' paramlist "
+    # error handle
+    def p_error(p):
+        if p:
+            print("Syntax error at '%s'" % p.value)
+            print(p);
+        else:
+            print("Syntax error at EOF")
 
-def p_paramlist_last(p):
-	" paramlist : param "
-	
-def p_param(p):
-	" param : NAME ':' TYPE "
-	print("name:",p[1],"type:",p[3]);
-
-def p_returnexpr(p):
-	"returnexpr : TYPE"
-	print("return type :",p[1]);
-
-# function decl end
-
-def p_error(p):
-    if p:
-        print("Syntax error at '%s'" % p.value)
-    else:
-        print("Syntax error at EOF")
-
-
-yacc.yacc()
+    return yacc.yacc(debug=True,optimize=1);
 
 
-data = '''
+data =(
+'''
+func fun(a:int) int
 
 func functin1(
-	a:int,
-	b:char,
-	c:string,
-	d:double,
-	e:bin) int ;
+    a:int,
+    b:char,
+    c:string,
+    d:double,
+    e:bin) char 
+
+func Function2(a:int) int 
+
+func Function3(a:int) int 
+
+func Function4(a:int) int 
+
+type MyType struct {
+    a:int
+    c:string
+    d:double
+    e:bin
+}
+''')
 
 
-func functin2( 
-	a:int,
-	b:char,
-	c:string,
-	d:double,
-	e:bin) int;
- 
-func functin3(
-	a:int,
-	b:char,
-	c:string,
-	d:double,
-	e:bin) int
+my_lex = MyLexBuild();
 
-'''
-
-# data = '''
-
-
-# type MyType struct {
-# 	a:int
-# 	b:char
-# 	c:string
-# 	d:double
-# 	e:bin
-# }
-# '''
-
-PrintTokens = False
-lexer.input(data)
+PrintTokens = True
+my_lex.input(data)
 if PrintTokens == True :
-	lexer.input(data)
-	while True:
-	    tok = lexer.token()
-	    if not tok:
-	        break
-	    print(tok)
-	print("token parse ok!");
+    my_lex.input(data)
+    while True:
+        tok = my_lex.token()
+        if not tok:
+            print("error occr")
+            break
+        print(tok)
+    print("token parse ok!");
 
-yacc.parse(data)
+
+import logging
+logging.basicConfig(
+    level = logging.DEBUG,
+    filename = "parselog.txt",
+    filemode = "w",
+    format = "%(message)s"
+)
+log = logging.getLogger()
+
+parser = MyYacc(tokens);
+parser.parse(data,lexer=my_lex,debug=log)
+# parser.parse(data,debug=log)
 
 # while 1:
 #     try:

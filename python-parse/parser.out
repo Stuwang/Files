@@ -1,202 +1,306 @@
 Created by PLY version 3.10 (http://www.dabeaz.com/ply)
 
-Unused terminals:
-
-    STRUCT
-    TYPE_DEFINE
-
 Grammar
 
-Rule 0     S' -> function
-Rule 1     function -> FUNC NAME ( paramlist ) returnexpr
-Rule 2     function -> FUNC NAME ( paramlist )
-Rule 3     function -> FUNC NAME ( ) : returnexpr
-Rule 4     function -> FUNC NAME ( )
-Rule 5     paramlist -> param , paramlist
-Rule 6     paramlist -> param
-Rule 7     param -> NAME : TYPE
-Rule 8     returnexpr -> TYPE
+Rule 0     S' -> all
+Rule 1     all -> define
+Rule 2     all -> define all
+Rule 3     define -> function
+Rule 4     define -> structexpr
+Rule 5     structexpr -> TYPE_DEFINE NAME STRUCT { s_member_list }
+Rule 6     s_member_list -> param s_member_list
+Rule 7     s_member_list -> param
+Rule 8     function -> FUNC NAME ( paramlist ) returnexpr
+Rule 9     paramlist -> param , paramlist
+Rule 10    paramlist -> <empty>
+Rule 11    paramlist -> param
+Rule 12    param -> NAME : TYPE
+Rule 13    returnexpr -> TYPE
+Rule 14    returnexpr -> <empty>
 
 Terminals, with rules where they appear
 
-(                    : 1 2 3 4
-)                    : 1 2 3 4
-,                    : 5
-:                    : 3 7
-FUNC                 : 1 2 3 4
-NAME                 : 1 2 3 4 7
-STRUCT               : 
-TYPE                 : 7 8
-TYPE_DEFINE          : 
+(                    : 8
+)                    : 8
+,                    : 9
+:                    : 12
+FUNC                 : 8
+NAME                 : 5 8 12
+STRUCT               : 5
+TYPE                 : 12 13
+TYPE_DEFINE          : 5
 error                : 
+{                    : 5
+}                    : 5
 
 Nonterminals, with rules where they appear
 
-function             : 0
-param                : 5 6
-paramlist            : 1 2 5
-returnexpr           : 1 3
+all                  : 2 0
+define               : 1 2
+function             : 3
+param                : 6 7 9 11
+paramlist            : 8 9
+returnexpr           : 8
+s_member_list        : 5 6
+structexpr           : 4
 
 Parsing method: LALR
 
 state 0
 
-    (0) S' -> . function
-    (1) function -> . FUNC NAME ( paramlist ) returnexpr
-    (2) function -> . FUNC NAME ( paramlist )
-    (3) function -> . FUNC NAME ( ) : returnexpr
-    (4) function -> . FUNC NAME ( )
+    (0) S' -> . all
+    (1) all -> . define
+    (2) all -> . define all
+    (3) define -> . function
+    (4) define -> . structexpr
+    (8) function -> . FUNC NAME ( paramlist ) returnexpr
+    (5) structexpr -> . TYPE_DEFINE NAME STRUCT { s_member_list }
 
-    FUNC            shift and go to state 1
+    FUNC            shift and go to state 3
+    TYPE_DEFINE     shift and go to state 4
 
-    function                       shift and go to state 2
+    all                            shift and go to state 1
+    function                       shift and go to state 5
+    define                         shift and go to state 6
+    structexpr                     shift and go to state 2
 
 state 1
 
-    (1) function -> FUNC . NAME ( paramlist ) returnexpr
-    (2) function -> FUNC . NAME ( paramlist )
-    (3) function -> FUNC . NAME ( ) : returnexpr
-    (4) function -> FUNC . NAME ( )
+    (0) S' -> all .
 
-    NAME            shift and go to state 3
 
 
 state 2
 
-    (0) S' -> function .
+    (4) define -> structexpr .
 
+    FUNC            reduce using rule 4 (define -> structexpr .)
+    TYPE_DEFINE     reduce using rule 4 (define -> structexpr .)
+    $end            reduce using rule 4 (define -> structexpr .)
 
 
 state 3
 
-    (1) function -> FUNC NAME . ( paramlist ) returnexpr
-    (2) function -> FUNC NAME . ( paramlist )
-    (3) function -> FUNC NAME . ( ) : returnexpr
-    (4) function -> FUNC NAME . ( )
+    (8) function -> FUNC . NAME ( paramlist ) returnexpr
 
-    (               shift and go to state 4
+    NAME            shift and go to state 7
 
 
 state 4
 
-    (1) function -> FUNC NAME ( . paramlist ) returnexpr
-    (2) function -> FUNC NAME ( . paramlist )
-    (3) function -> FUNC NAME ( . ) : returnexpr
-    (4) function -> FUNC NAME ( . )
-    (5) paramlist -> . param , paramlist
-    (6) paramlist -> . param
-    (7) param -> . NAME : TYPE
+    (5) structexpr -> TYPE_DEFINE . NAME STRUCT { s_member_list }
 
-    )               shift and go to state 5
-    NAME            shift and go to state 6
+    NAME            shift and go to state 8
 
-    param                          shift and go to state 8
-    paramlist                      shift and go to state 7
 
 state 5
 
-    (3) function -> FUNC NAME ( ) . : returnexpr
-    (4) function -> FUNC NAME ( ) .
+    (3) define -> function .
 
-    :               shift and go to state 9
-    $end            reduce using rule 4 (function -> FUNC NAME ( ) .)
+    FUNC            reduce using rule 3 (define -> function .)
+    TYPE_DEFINE     reduce using rule 3 (define -> function .)
+    $end            reduce using rule 3 (define -> function .)
 
 
 state 6
 
-    (7) param -> NAME . : TYPE
+    (1) all -> define .
+    (2) all -> define . all
+    (1) all -> . define
+    (2) all -> . define all
+    (3) define -> . function
+    (4) define -> . structexpr
+    (8) function -> . FUNC NAME ( paramlist ) returnexpr
+    (5) structexpr -> . TYPE_DEFINE NAME STRUCT { s_member_list }
 
-    :               shift and go to state 10
+    $end            reduce using rule 1 (all -> define .)
+    FUNC            shift and go to state 3
+    TYPE_DEFINE     shift and go to state 4
 
+    all                            shift and go to state 9
+    function                       shift and go to state 5
+    define                         shift and go to state 6
+    structexpr                     shift and go to state 2
 
 state 7
 
-    (1) function -> FUNC NAME ( paramlist . ) returnexpr
-    (2) function -> FUNC NAME ( paramlist . )
+    (8) function -> FUNC NAME . ( paramlist ) returnexpr
 
-    )               shift and go to state 11
+    (               shift and go to state 10
 
 
 state 8
 
-    (5) paramlist -> param . , paramlist
-    (6) paramlist -> param .
+    (5) structexpr -> TYPE_DEFINE NAME . STRUCT { s_member_list }
 
-    ,               shift and go to state 12
-    )               reduce using rule 6 (paramlist -> param .)
+    STRUCT          shift and go to state 11
 
 
 state 9
 
-    (3) function -> FUNC NAME ( ) : . returnexpr
-    (8) returnexpr -> . TYPE
+    (2) all -> define all .
 
-    TYPE            shift and go to state 14
+    $end            reduce using rule 2 (all -> define all .)
 
-    returnexpr                     shift and go to state 13
 
 state 10
 
-    (7) param -> NAME : . TYPE
+    (8) function -> FUNC NAME ( . paramlist ) returnexpr
+    (9) paramlist -> . param , paramlist
+    (10) paramlist -> .
+    (11) paramlist -> . param
+    (12) param -> . NAME : TYPE
 
-    TYPE            shift and go to state 15
+    )               reduce using rule 10 (paramlist -> .)
+    NAME            shift and go to state 13
 
+    param                          shift and go to state 12
+    paramlist                      shift and go to state 14
 
 state 11
 
-    (1) function -> FUNC NAME ( paramlist ) . returnexpr
-    (2) function -> FUNC NAME ( paramlist ) .
-    (8) returnexpr -> . TYPE
+    (5) structexpr -> TYPE_DEFINE NAME STRUCT . { s_member_list }
 
-    $end            reduce using rule 2 (function -> FUNC NAME ( paramlist ) .)
-    TYPE            shift and go to state 14
+    {               shift and go to state 15
 
-    returnexpr                     shift and go to state 16
 
 state 12
 
-    (5) paramlist -> param , . paramlist
-    (5) paramlist -> . param , paramlist
-    (6) paramlist -> . param
-    (7) param -> . NAME : TYPE
+    (9) paramlist -> param . , paramlist
+    (11) paramlist -> param .
 
-    NAME            shift and go to state 6
+    ,               shift and go to state 16
+    )               reduce using rule 11 (paramlist -> param .)
 
-    param                          shift and go to state 8
-    paramlist                      shift and go to state 17
 
 state 13
 
-    (3) function -> FUNC NAME ( ) : returnexpr .
+    (12) param -> NAME . : TYPE
 
-    $end            reduce using rule 3 (function -> FUNC NAME ( ) : returnexpr .)
+    :               shift and go to state 17
 
 
 state 14
 
-    (8) returnexpr -> TYPE .
+    (8) function -> FUNC NAME ( paramlist . ) returnexpr
 
-    $end            reduce using rule 8 (returnexpr -> TYPE .)
+    )               shift and go to state 18
 
 
 state 15
 
-    (7) param -> NAME : TYPE .
+    (5) structexpr -> TYPE_DEFINE NAME STRUCT { . s_member_list }
+    (6) s_member_list -> . param s_member_list
+    (7) s_member_list -> . param
+    (12) param -> . NAME : TYPE
 
-    ,               reduce using rule 7 (param -> NAME : TYPE .)
-    )               reduce using rule 7 (param -> NAME : TYPE .)
+    NAME            shift and go to state 13
 
+    s_member_list                  shift and go to state 19
+    param                          shift and go to state 20
 
 state 16
 
-    (1) function -> FUNC NAME ( paramlist ) returnexpr .
+    (9) paramlist -> param , . paramlist
+    (9) paramlist -> . param , paramlist
+    (10) paramlist -> .
+    (11) paramlist -> . param
+    (12) param -> . NAME : TYPE
 
-    $end            reduce using rule 1 (function -> FUNC NAME ( paramlist ) returnexpr .)
+    )               reduce using rule 10 (paramlist -> .)
+    NAME            shift and go to state 13
 
+    paramlist                      shift and go to state 21
+    param                          shift and go to state 12
 
 state 17
 
-    (5) paramlist -> param , paramlist .
+    (12) param -> NAME : . TYPE
 
-    )               reduce using rule 5 (paramlist -> param , paramlist .)
+    TYPE            shift and go to state 22
+
+
+state 18
+
+    (8) function -> FUNC NAME ( paramlist ) . returnexpr
+    (13) returnexpr -> . TYPE
+    (14) returnexpr -> .
+
+    TYPE            shift and go to state 24
+    FUNC            reduce using rule 14 (returnexpr -> .)
+    TYPE_DEFINE     reduce using rule 14 (returnexpr -> .)
+    $end            reduce using rule 14 (returnexpr -> .)
+
+    returnexpr                     shift and go to state 23
+
+state 19
+
+    (5) structexpr -> TYPE_DEFINE NAME STRUCT { s_member_list . }
+
+    }               shift and go to state 25
+
+
+state 20
+
+    (6) s_member_list -> param . s_member_list
+    (7) s_member_list -> param .
+    (6) s_member_list -> . param s_member_list
+    (7) s_member_list -> . param
+    (12) param -> . NAME : TYPE
+
+    }               reduce using rule 7 (s_member_list -> param .)
+    NAME            shift and go to state 13
+
+    s_member_list                  shift and go to state 26
+    param                          shift and go to state 20
+
+state 21
+
+    (9) paramlist -> param , paramlist .
+
+    )               reduce using rule 9 (paramlist -> param , paramlist .)
+
+
+state 22
+
+    (12) param -> NAME : TYPE .
+
+    ,               reduce using rule 12 (param -> NAME : TYPE .)
+    )               reduce using rule 12 (param -> NAME : TYPE .)
+    NAME            reduce using rule 12 (param -> NAME : TYPE .)
+    }               reduce using rule 12 (param -> NAME : TYPE .)
+
+
+state 23
+
+    (8) function -> FUNC NAME ( paramlist ) returnexpr .
+
+    FUNC            reduce using rule 8 (function -> FUNC NAME ( paramlist ) returnexpr .)
+    TYPE_DEFINE     reduce using rule 8 (function -> FUNC NAME ( paramlist ) returnexpr .)
+    $end            reduce using rule 8 (function -> FUNC NAME ( paramlist ) returnexpr .)
+
+
+state 24
+
+    (13) returnexpr -> TYPE .
+
+    FUNC            reduce using rule 13 (returnexpr -> TYPE .)
+    TYPE_DEFINE     reduce using rule 13 (returnexpr -> TYPE .)
+    $end            reduce using rule 13 (returnexpr -> TYPE .)
+
+
+state 25
+
+    (5) structexpr -> TYPE_DEFINE NAME STRUCT { s_member_list } .
+
+    FUNC            reduce using rule 5 (structexpr -> TYPE_DEFINE NAME STRUCT { s_member_list } .)
+    TYPE_DEFINE     reduce using rule 5 (structexpr -> TYPE_DEFINE NAME STRUCT { s_member_list } .)
+    $end            reduce using rule 5 (structexpr -> TYPE_DEFINE NAME STRUCT { s_member_list } .)
+
+
+state 26
+
+    (6) s_member_list -> param s_member_list .
+
+    }               reduce using rule 6 (s_member_list -> param s_member_list .)
 
