@@ -1,3 +1,7 @@
+#!/usr/bin/python3.4
+
+# -*- coding: -*-
+
 from ply import lex
 
 # 空格 制表符 回车这些不可见符号都忽略
