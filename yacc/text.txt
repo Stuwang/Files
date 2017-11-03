@@ -1,0 +1,4 @@
+func func_name() int;
+func func_name(a:int) int;
+func func_name() int;
+func func_name() int;
