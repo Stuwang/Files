@@ -1,0 +1,81 @@
+﻿<Window x:Class="WpfApplication1.Window2"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Window2" Height="500" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Button MaxWidth="200" Grid.Column="0" Margin="3,3,3,3" Click="Button_Click" >页面1</Button>
+            <Button MaxWidth="200" Grid.Column="1" Margin="3,3,3,3" Click="Button_Click_1" >页面2</Button>
+            <Button MaxWidth="200" Grid.Column="2" Margin="3,3,3,3" Click="Button_Click_2" >页面3</Button>
+            <Button MaxWidth="200" Grid.Column="3" Margin="3,3,3,3" Click="Button_Click_3" >页面4</Button>
+        </Grid>
+        <Grid Grid.Row="1">
+            <Grid Name="g1">
+                <TextBlock FontSize="40">a</TextBlock>
+            </Grid>
+            <Grid Name="g2" Visibility="Hidden" >
+                <TextBlock FontSize="40">b</TextBlock>
+            </Grid>
+            <Grid Name="g3" Visibility="Hidden">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="40"></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Button Name="b3" Grid.Row="0" Width="200" Click="Button_Click_4" ></Button>
+                    <TreeView Grid.Row="1" FontSize="30">
+                        <TreeViewItem Background="Yellow" Header="Fruit">
+                            <TreeViewItem Name="v1" Background="Green" Header="Origin">
+                                <Button Width="100" Height="30">A</Button>
+                                <Button Width="100" Height="30">B</Button>
+                                <Button Width="100" Height="30">C</Button>
+                            </TreeViewItem>
+                            <TreeViewItem Background="Green" Header="banana"></TreeViewItem>
+                            <TreeViewItem Background="Green" Header="Apple"></TreeViewItem>
+                        </TreeViewItem>
+                        <TreeViewItem Background="Yellow"  Header="Letter">
+                            <TreeViewItem Background="Green" Header="A"></TreeViewItem>
+                            <TreeViewItem Background="Green" Header="B"></TreeViewItem>
+                            <TreeViewItem Background="Green" Header="C"></TreeViewItem>
+                        </TreeViewItem>
+                    </TreeView>
+                </Grid>
+            </Grid>
+            <Grid Name="g4" Visibility="Hidden">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40"></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <Button Height="30" Width="160" Grid.Row="0" Content="添加"   Name="btnAdd" Click="btnAdd_Click" />
+                <DataGrid Grid.Row="1"  Name="dataGrid1"  AutoGenerateColumns="True" >
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn Header="操作" Width="40">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <CheckBox ></CheckBox>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTextColumn Header="公司名称" Width="80"/>
+                        <DataGridTextColumn Header="姓名" Width="80"/>
+                        <DataGridComboBoxColumn Header="sex"/>
+                        
+                        <DataGridTextColumn Header="年龄" Width="80" />
+                        <DataGridTextColumn Header="职务" Width="80" />
+                    </DataGrid.Columns>
+                    
+                </DataGrid>
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>
