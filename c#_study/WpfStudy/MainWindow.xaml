@@ -6,7 +6,11 @@
         xmlns:local="clr-namespace:WpfStudy"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525" Opacity="0.5" BorderBrush="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}">
-    <Grid Background="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}">
+    <Grid 
+        Background="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"
+        Button.Click="Button_Click"
+        KeyDown="Grid_KeyDown"
+        >
         <Grid.RowDefinitions>
             <RowDefinition />
             <RowDefinition />
@@ -23,15 +27,15 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Button Grid.Column="1" Grid.Row="1" 
-                Name ="button1" Click="Button1_Click" Background="{DynamicResource {x:Static SystemColors.HotTrackBrushKey}}">解码器</Button>
+                Name ="button1" Background="{DynamicResource {x:Static SystemColors.HotTrackBrushKey}}">解码器</Button>
         <Button Grid.Column="1" Grid.Row="3"
-                Name ="button2" Click="Button2_Click" Background="{DynamicResource {x:Static SystemColors.HotTrackBrushKey}}">滚动条</Button>
+                Name ="button2" Background="{DynamicResource {x:Static SystemColors.HotTrackBrushKey}}">滚动条</Button>
         <Button Grid.Column="1" Grid.Row="5"
-                Name ="button3" Click="Button3_Click" Background="{DynamicResource {x:Static SystemColors.HotTrackBrushKey}}" FontFamily="Aldhabi" FontWeight="Bold">其他</Button>
+                Name ="button3" Background="{DynamicResource {x:Static SystemColors.HotTrackBrushKey}}" FontFamily="Aldhabi" FontWeight="Bold">其他</Button>
 
         <GridSplitter Grid.Row="0" Grid.Column="2" Grid.RowSpan="3"
                       Width="6" VerticalAlignment="Stretch" HorizontalAlignment="Center"
                       />
-        <Button Content="Button" Grid.Column="3" HorizontalAlignment="Left" Grid.Row="3" VerticalAlignment="Top" Width="171.667" Height="45.572" BorderBrush="#FFB21540" Background="#FF09CB58"/>
+        <Button Name ="button4" Content="Button4" Grid.Column="3" HorizontalAlignment="Left" Grid.Row="3" VerticalAlignment="Top" Width="171.667" Height="45.572" BorderBrush="#FFB21540" Background="#FF09CB58"/>
     </Grid>
 </Window>

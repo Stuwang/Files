@@ -24,20 +24,42 @@ namespace WpfStudy
             InitializeComponent();
         }
 
-        private void Button1_Click(object sender, RoutedEventArgs e)
+        private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Decode d = new Decode();
-            d.Show();
+            if (e.OriginalSource == button1)
+            {
+                if (sender == button1)
+                {
+                    MessageBox.Show("Yes, the sender is the same as event.OriginalSource");
+                }
+                //else
+                //{
+                //    MessageBox.Show("the sender is not the same as event.OriginalSource");
+                //}
+                Decode d = new Decode();
+                d.Show();
+            }
+            else if (e.OriginalSource == button2)
+            {
+                new ScrollViewerWindow().Show();
+            }
+            else if (e.OriginalSource == button3)
+            {
+                new WindowBindData().Show();
+            }else if(e.OriginalSource == button4)
+            {
+                new SliderWindow().Show();
+            }
+            else
+            {
+                MessageBox.Show("Oh,Sorry,UnKnow Button");
+            }
+
         }
 
-        private void Button2_Click(object sender, RoutedEventArgs e)
+        private void Grid_KeyDown(object sender, KeyEventArgs e)
         {
-            new ScrollViewerWindow().Show();
-        }
-
-        private void Button3_Click(object sender, RoutedEventArgs e)
-        {
-            new WindowBindData().Show();
+            MessageBox.Show(e.Key.ToString());
         }
     }
 }

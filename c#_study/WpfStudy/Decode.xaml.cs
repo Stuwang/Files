@@ -31,5 +31,17 @@ namespace WpfStudy
             MessageBox.Show(text1.Text);
             
         }
+
+        private void text_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            string text = (sender as TextBox).Text;
+            text1.Text = text;
+            text2.Text = text;
+        }
+
+        private void text2_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            //MessageBox.Show(e.Text);
+        }
     }
 }

@@ -23,13 +23,14 @@
         </Grid.ColumnDefinitions>
         <TextBox Grid.Row="1" Grid.Column="1" Background="#888888" 
                  Name="text1"
-                 Text="{Binding Path=text_context,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                 TextChanged="text_TextChanged"
                  ></TextBox>
         <TextBox Grid.Row="3" Grid.Column="1" Background="Green"
                  Name="text2"
-                 Text="{Binding Path=text_context,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                 TextChanged="text_TextChanged"
+                 PreviewTextInput="text2_PreviewTextInput"
                  ></TextBox>
-        
+
         <Button Grid.Row="5" Grid.Column="1" Name="button" Click="button_Click" >显示</Button>
     </Grid>
 </Window>
