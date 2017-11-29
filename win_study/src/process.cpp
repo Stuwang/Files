@@ -5,6 +5,7 @@
 #include<Windows.h>
 
 #include "base.h"
+#include "net.h"
 
 
 #define CHECK_RET(ret,FalseFlag,msg)         \
@@ -276,6 +277,7 @@ void NamedPipe(int type) {
 
 int main(int argc, const char* argv[])
 {
+	StartIocpServer();
 	if (2 <= argc) {
 		NamedPipe(2);
 	} else {

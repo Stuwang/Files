@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.0.0)
+	cmake_minimum_required(VERSION 3.0.0)
 
 project(WinStudy)
 
@@ -8,11 +8,15 @@ set(SIMPLE_SOURCES
 
 set(WIN_PROCESS_SRCS
 	src/process.cpp
+	src/net.cpp
+	src/net.h
 	)
 
 set(BASE_SRCS
 	src/base.h
 	src/base.cpp
+	src/logger.h
+	src/logger.cpp
 	)
 
 add_definitions(-DUNICODE)
@@ -26,3 +30,4 @@ target_link_libraries(Simple base)
 
 add_executable(ChildProcess ${WIN_PROCESS_SRCS})
 target_link_libraries(ChildProcess base)
+target_link_libraries(ChildProcess ws2_32.lib)
