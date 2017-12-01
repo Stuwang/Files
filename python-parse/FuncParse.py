@@ -68,6 +68,9 @@ def MyLexBuild():
 #     )
 
 def MyYacc(tokens = None):
+
+    
+    
     def p_all(p):
         ''' all : define 
                 | define all 

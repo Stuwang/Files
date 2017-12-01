@@ -8,8 +8,8 @@ set(SIMPLE_SOURCES
 
 set(WIN_PROCESS_SRCS
 	src/process.cpp
-	src/net.cpp
-	src/net.h
+	src/net_exp.cpp
+	src/net_exp.h
 	)
 
 set(BASE_SRCS
@@ -24,9 +24,6 @@ add_definitions(-DUNICODE)
 include_directories(src)
 
 add_library(base STATIC ${BASE_SRCS})
-
-add_executable(Simple ${SIMPLE_SOURCES})
-target_link_libraries(Simple base)
 
 add_executable(ChildProcess ${WIN_PROCESS_SRCS})
 target_link_libraries(ChildProcess base)
