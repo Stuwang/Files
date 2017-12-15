@@ -242,7 +242,7 @@ private:
 	HANDLE iocp_port;
 	std::vector<OVERLAPPED_ENTRY> entrys;
 
-	NO_COPY_AND_ASSIGN(Service);
+	NO_COPY_AND_ASSIGN(Service)
 };
 
 class Connection {
