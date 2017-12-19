@@ -99,7 +99,7 @@ impl<T> List<T> {
                     self.tail = Some(new_tail);
                 }
                 None => {
-                    self.tail.take();
+                    self.head.take();
                 }
             }
             Rc::try_unwrap(old_tail).ok().unwrap().into_inner().elem
@@ -117,11 +117,31 @@ impl<T> List<T> {
             .as_ref()
             .map(|node| RefMut::map(node.borrow_mut(), |node| &mut node.elem))
     }
+
+    pub fn into_iter(self) -> IntoIter<T> {
+        IntoIter(self)
+    }
 }
 
 impl<T> Drop for List<T> {
     fn drop(&mut self) {
         while self.pop_front().is_some() {}
+    }
+}
+
+// IntoIter
+pub struct IntoIter<T>(List<T>);
+
+impl<T> Iterator for IntoIter<T> {
+    type Item = T;
+    fn next(&mut self) -> Option<T> {
+        self.0.pop_front()
+    }
+}
+
+impl<T> DoubleEndedIterator for IntoIter<T> {
+    fn next_back(&mut self) -> Option<T> {
+        self.0.pop_back()
     }
 }
 
@@ -160,11 +180,9 @@ mod test {
         list.push_back(1);
         list.push_back(2);
 
-        // assert_eq!(list.pop_front(), Some(1));
-        // assert_eq!(list.pop_front(), Some(2));
-        // assert_eq!(list.pop_front(), None);
+        assert_eq!(list.pop_back(), Some(2));
         assert_eq!(list.pop_back(), Some(1));
-        // assert_eq!(list.pop_back(), Some(2));
+        assert_eq!(list.pop_back(), None);
     }
 
     #[test]
@@ -193,5 +211,37 @@ mod test {
         assert_eq!(&mut *list2.peek_front_mut().unwrap(), &mut 1);
         assert_eq!(&*list2.peek_back().unwrap(), &3);
         assert_eq!(&mut *list2.peek_back_mut().unwrap(), &mut 3);
+    }
+
+    #[test]
+    fn iterator() {
+        let mut list = List::new();
+
+        list.push_front(1);
+        list.push_front(2);
+        list.push_front(3);
+
+        let mut iter = list.into_iter();
+
+        assert_eq!(iter.next(), Some(3));
+        assert_eq!(iter.next(), Some(2));
+        assert_eq!(iter.next(), Some(1));
+        assert_eq!(iter.next(), None);
+    }
+
+    #[test]
+    fn double_ended_iterator() {
+        let mut list = List::new();
+
+        list.push_front(1);
+        list.push_front(2);
+        list.push_front(3);
+
+        let mut iter = list.into_iter();
+
+        assert_eq!(iter.next_back(), Some(1));
+        assert_eq!(iter.next_back(), Some(2));
+        assert_eq!(iter.next_back(), Some(3));
+        assert_eq!(iter.next_back(), None);
     }
 }
