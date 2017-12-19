@@ -16,7 +16,6 @@ fn try_main() -> Result<(), Box<Error>> {
     use std::collections::HashMap;
     use std::str;
 
-
     // Pick a token that will not be used by any other socket and use that one
     // for the listener.
     const LISTENER: Token = Token(0);
@@ -30,8 +29,11 @@ fn try_main() -> Result<(), Box<Error>> {
     // The `Poll` instance
     let poll = Poll::new()?;
 
+    let addr = "127.0.0.1:8080".parse()?;
+    println!("addr is {}", &addr);
+
     // Tcp listener
-    let listener = TcpListener::bind(&"127.0.0.1:8080".parse()?)?;
+    let listener = TcpListener::bind(&addr)?;
 
     // Register the listener
     poll.register(&listener, LISTENER, Ready::readable(), PollOpt::edge())?;
@@ -119,7 +121,7 @@ fn try_main() -> Result<(), Box<Error>> {
                                     Err(_) => println!("error occr"),
                                 }
                                 // println!("recv {} datas", size);
-                                println!("");
+                                // println!("");
                             }
                             Err(ref e) if e.kind() == io::ErrorKind::WouldBlock => {
                                 // Socket is not ready anymore, stop reading
@@ -132,7 +134,7 @@ fn try_main() -> Result<(), Box<Error>> {
             }
         }
     }
-    Ok(())
+   	Ok(())
 }
 
 pub fn echo_main() {
