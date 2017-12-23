@@ -34,7 +34,12 @@ fn try_main() -> Result<(), Box<Error>> {
     let listener = TcpListener::bind(&"127.0.0.1:8080".parse()?)?;
 
     // Register the listener
-    poll.register(&listener, LISTENER, Ready::readable(), PollOpt::edge())?;
+    poll.register(
+        &listener,
+        LISTENER,
+        Ready::readable(),
+        PollOpt::edge(),
+    )?;
 
     // Spawn a thread that will connect a bunch of sockets then close them
     let addr = listener.local_addr()?;
@@ -74,7 +79,12 @@ fn try_main() -> Result<(), Box<Error>> {
                                 println!("accept new socket addr {:?} token {:?}", addr, token.0);
 
                                 // Register the new socket w/ poll
-                                poll.register(&socket, token, Ready::readable(), PollOpt::edge())?;
+                                poll.register(
+                                    &socket,
+                                    token,
+                                    Ready::readable(),
+                                    PollOpt::edge(),
+                                )?;
 
                                 // Store the socket
                                 sockets.insert(token, socket);
@@ -102,11 +112,13 @@ fn try_main() -> Result<(), Box<Error>> {
                             Ok(size) => {
                                 // println!("recv {:?} bytes data",
                                 //          str::from_utf8(&buf[0..size]).unwrap());
-                                println!("recv {:?} bytes data",
-                                         match str::from_utf8(&buf[0..size]) {
-                                             Ok(data) => data,
-                                             Err(err) => "error",
-                                         });
+                                println!(
+                                    "recv {:?} bytes data",
+                                    match str::from_utf8(&buf[0..size]) {
+                                        Ok(data) => data,
+                                        Err(err) => "error",
+                                    }
+                                );
 
                                 match sockets.get_mut(&token).unwrap().write(&buf[0..size]) {
                                     Ok(write_size) => {
