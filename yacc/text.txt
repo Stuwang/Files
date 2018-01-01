@@ -1,4 +1,25 @@
+
+/**
+ * [func_name description]
+ * @return [description]
+ */
 func func_name() int;
+
+/**
+ * [func_name description]
+ * @param  int [description]
+ * @return     [description]
+ */
 func func_name(a:int) int;
+
+/**
+ * [func_name description]
+ * @return [description]
+ */
 func func_name() int;
+
+/**
+ * [func_name description]
+ * @return [description]
+ */
 func func_name() int;

@@ -104,7 +104,7 @@ symbol        ([\(\):;,=\{\}])
 
 {multicm_begin} {
     std::string parsed = GetDoc("/**", yyinput);
-    std::cout << parsed << std::endl;
+    std::cout << "document : " << parsed << std::endl;
 }
 
 

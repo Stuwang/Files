@@ -5,58 +5,7 @@ import ply.lex as lex
 import ply.yacc as yacc
 
 
-# 解析函数表达式，RPC IDL语言自定义
-
-
-# 词法分析部分
-
-# TOKEN 类型
-tokens = ['NAME','FUNC','TYPE','STRUCT','TYPE_DEFINE'];
-
-def MyLexBuild():
-
-    # 特殊的字符，从标识符中区分
-    reserved = {
-    # key word
-       'func' : 'FUNC',
-    # base type
-       'int' : 'TYPE',
-       'char' : 'TYPE',
-       'string' : 'TYPE',
-       'double' : 'TYPE',
-       'bin' : 'TYPE',
-    # struct
-       'struct': "STRUCT",
-    # type
-       'type': "TYPE_DEFINE"
-    }
-
-    # 字面值？。 忽略
-    literals = ['(',')',':',',','{','}',';','=']
-
-    # Tokens
-    # t_FUNC   = r'func'
-    # t_TYPE   = r'int|char|string|double|bin|void'
-    # t_NAME   = r'[a-zA-Z][a-zA-Z0-9_]*'
-
-    # 定义规则，同时做特殊处理
-    def t_NAME(t):
-        r'[a-zA-Z][a-zA-Z0-9_]*'
-        t.type = reserved.get(t.value,'NAME') 
-        return t;
-
-    # manul s
-    t_ignore = " \t"
-
-    def t_newline(t):
-        r'\n+'
-        t.lexer.lineno += t.value.count("\n")
-        
-    def t_error(t):
-        print("Illegal character '%s'" % t.value[0])
-        t.lexer.skip(1)
-
-    return lex.lex(optimize=1)
+import func_token;
 
 # yacc
 # 语法分析部分
@@ -67,35 +16,61 @@ def MyLexBuild():
 #   ('left',';'),
 #     )
 
+class Type:
+    def __init__(self):
+        self.is_base_type = True;
+        self.type_name = "";
+        # if is base type, this is None
+        self.fieldS = None;
+        # storge size
+        self.size = 0;
+        # 
+        self.inv_type = None;
+
+
+class Param:
+    def __init(self):
+        self.name = "";
+        self.type = None;
+
+class FuncDef:
+    def __init__(self):
+        self.ret_type = None;
+        self.params = [];
+        self.name = "";
+
 def MyYacc(tokens = None):
 
     def p_all(p):
-        ''' all : define 
-                | define all 
-        '''
+        ' all : all define '
 
-    def p_define(p):
-        '''define : function
-                    | structexpr
-         '''
+    def p_all_define(p):
+        ' all : define '
+
+    def p_define_function(p):
+        'define : function'
+
+    def p_define_struct(p):
+        'define : struct'
          
     def p_struct(p):
-        "structexpr : TYPE_DEFINE NAME STRUCT '{' s_member_list '}' "
+        "struct : TYPE_DEFINE NAME STRUCT '{' s_member_list '}' "
         print("struct :",p[2]);
 
     def p_s_member_list(p):
         ''' s_member_list : param s_member_list 
                         | param 
         '''
+
     # function decl
-    def p_func_binop(p):
-        "function : FUNC NAME '(' paramlist ')' returnexpr "
+    def p_function(p):
+        "function : FUNC NAME '(' paramlist ')' return "
         print("function name :",p[2]);
 
     def p_paramlist(p):
-        " paramlist : param ',' paramlist "
+        " paramlist : paramlist ',' param "
 
-    def p_noparamlist(p):
+    def p_paramlist_none(p):
         " paramlist : "
 
     def p_paramlist_last(p):
@@ -105,12 +80,12 @@ def MyYacc(tokens = None):
         " param : NAME ':' TYPE "
         print("name:",p[1],"type:",p[3]);
 
-    def p_returnexpr(p):
-        "returnexpr : TYPE"
+    def p_return(p):
+        "return : TYPE"
         print("return type :",p[1]);
 
-    def p_no_returnexpr(p):
-        "returnexpr : "
+    def p_return_none(p):
+        "return : "
         print("no return type :");
 
     # error handle
@@ -122,7 +97,6 @@ def MyYacc(tokens = None):
             print("Syntax error at EOF")
 
     return yacc.yacc(debug=True,optimize=1);
-
 
 data =(
 '''
@@ -149,8 +123,7 @@ type MyType struct {
 }
 ''')
 
-
-my_lex = MyLexBuild();
+my_lex = func_token.lexer;
 
 PrintTokens = True
 my_lex.input(data)
@@ -174,7 +147,7 @@ logging.basicConfig(
 )
 log = logging.getLogger()
 
-parser = MyYacc(tokens);
+parser = MyYacc(func_token.tokens);
 parser.parse(data,lexer=my_lex,debug=log)
 # parser.parse(data,debug=log)
 
