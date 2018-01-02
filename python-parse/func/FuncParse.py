@@ -4,9 +4,7 @@ import sys;
 import ply.lex as lex
 import ply.yacc as yacc
 
-
 import func_token;
-
 
 # this is a function to debug
 def PrintTokens(data,lex = lex.lexer):
@@ -28,8 +26,6 @@ class Type:
     def __init__(self):
         self.is_base_type = True;
         self.type_name = "";
-        # if is base type, this is None
-        self.fields = None;
 
 NullType = Type();
 
@@ -43,6 +39,7 @@ class FuncDef:
         self.ret_type = None;
         self.params = [];
         self.name = "";
+        self.flag = "function";
 
     def print(self):
         print("==========================");
@@ -68,6 +65,7 @@ class StructDef:
     def __init__(self):
         self.name = "";
         self.members = [];
+        self.flag = "struct";
 
     def print(self):
         print("==========================");
@@ -84,6 +82,25 @@ class StructDef:
             
         print("");        
 
+class Program:
+    def __init__(self):
+        self.types = [];
+        self.functions = [];
+        pass
+
+    def add_type(t):
+        self.types.append(t);
+
+    def add_function(func):
+        self.functions.append(func);
+
+    def find_type(type_name):
+        pass
+
+    def init_base_type():
+        pass
+
+
 def MyYacc(tokens = None):
 
     def p_all(p):
@@ -91,14 +108,18 @@ def MyYacc(tokens = None):
 
     def p_all_define(p):
         ' all : define '
+        # this is first
+        
 
     def p_define_function(p):
         'define : function'
         p[1].print();
+        p[0] = p[1];
 
     def p_define_struct(p):
         'define : struct'
         p[1].print();
+        p[0] = p[1];
          
     def p_struct(p):
         "struct : TYPE_DEFINE NAME STRUCT '{' members '}' "
@@ -142,12 +163,9 @@ def MyYacc(tokens = None):
             p[0] = [];
         
     def p_param(p):
-        " param : NAME ':' TYPE "
-        t = Type();
-        t.type_name = p[3];
-
+        " param : NAME ':' type "
         param = Param();
-        param.type = t;
+        param.type = p[3];
         param.name = p[1];
 
         p[0] = param;
@@ -157,14 +175,25 @@ def MyYacc(tokens = None):
         p[0] = None;
 
     def p_return(p):
-        "return : TYPE"
-        t = Type();
-        t.type_name = p[1];
-        p[0] = t;
+        "return : type"
+        p[0] =p[1];
 
     def p_return_none(p):
         "return : "
         p[0] = NullType;
+
+    def p_type_base(p):
+        'type : TYPE'
+        t = Type();
+        t.type_name = p[1];
+        p[0] = t;
+
+    def p_type_userdefine(p):
+        'type : NAME '
+        t = Type();
+        t.type_name = p[1];
+        t.is_base_type = False;
+        p[0] = t;
 
     # error handle
     def p_error(p):
@@ -201,6 +230,9 @@ type MyType struct {
     d :double
     e :bin
 }
+
+func Function4(a:MyType) MyType1 
+
 ''')
 
 my_lex = func_token.lexer;
