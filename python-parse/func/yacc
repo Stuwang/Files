@@ -1,0 +1,17 @@
+all = define*
+
+define = function | struct
+
+function = 'func' FUNC_NAME '(' parameter_list ')' return
+
+parameter_list = parameter | parameter_list ',' parameter
+
+parameter = NAME ':' TYPE | empty
+
+return = empty | TYPE
+
+
+struct | 'type' TYPE_NAME 'struct' '{' member_list '}'
+
+member_list = parameter | member_list ';' parameter
+

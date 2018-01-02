@@ -29,12 +29,14 @@ names = { }
 def p_statement_assign(p):
     'statement : NAME ASSIGN expression'
     names[p[1]] = p[3]
-    print(p[3]);
+    p[0] = p[3];
+    # print(p[3]);
 
 def p_statement_expr(p):
     'statement : expression'
-    print(p[1])
+    # print(p[1])
     # return p[1];
+    p[0] = p[1];
 
 def p_expression_plus(p):
     'expression : expression PLUS term'
@@ -100,4 +102,5 @@ while 1:
     except EOFError:
         break
     if not s: continue
-    yacc.parse(s,debug=log)
+    result = yacc.parse(s,debug=log)
+    print(result);

@@ -7,26 +7,31 @@ import ply.yacc as yacc
 
 import func_token;
 
-# yacc
-# 语法分析部分
 
-# precedence = (
-#     ('left',','),
-#     ('left',':'),
-#   ('left',';'),
-#     )
+# this is a function to debug
+def PrintTokens(data,lex = lex.lexer):
+    print("======== start print token  ========")
+    PrintTokens = True
+    lex.input(data)
+    if PrintTokens == True :
+        lex.input(data)
+        while True:
+            tok = lex.token()
+            if not tok:
+                print("error occr")
+                break
+            print(tok)
+        print("token parse ok!");
+    print("======== end print token ===========")
 
 class Type:
     def __init__(self):
         self.is_base_type = True;
         self.type_name = "";
         # if is base type, this is None
-        self.fieldS = None;
-        # storge size
-        self.size = 0;
-        # 
-        self.inv_type = None;
+        self.fields = None;
 
+NullType = Type();
 
 class Param:
     def __init(self):
@@ -39,6 +44,46 @@ class FuncDef:
         self.params = [];
         self.name = "";
 
+    def print(self):
+        print("==========================");
+        print("   this is a function ")
+        print("function name : ",self.name)
+
+        return_name = None;
+        if self.ret_type != None:
+            return_name = self.ret_type.type_name;
+
+        print("return type   : ",return_name);
+        print("param size    : ",len(self.params));
+        for index in range(0,len(self.params)):
+            p = self.params[index];
+            print("index : ",index);
+            print("name  : ",p.name);
+            print("type  : ",p.type.type_name);
+            print("---------")
+            
+        print("");
+
+class StructDef:
+    def __init__(self):
+        self.name = "";
+        self.members = [];
+
+    def print(self):
+        print("==========================");
+        print("   this is a struct ")
+        print("function name : ",self.name)
+
+        print("member size   : ",len(self.members));
+        for index in range(0,len(self.members)):
+            p = self.members[index];
+            print("index : ",index);
+            print("name  : ",p.name);
+            print("type  : ",p.type.type_name);
+            print("---------")
+            
+        print("");        
+
 def MyYacc(tokens = None):
 
     def p_all(p):
@@ -49,44 +94,77 @@ def MyYacc(tokens = None):
 
     def p_define_function(p):
         'define : function'
+        p[1].print();
 
     def p_define_struct(p):
         'define : struct'
+        p[1].print();
          
     def p_struct(p):
-        "struct : TYPE_DEFINE NAME STRUCT '{' s_member_list '}' "
-        print("struct :",p[2]);
+        "struct : TYPE_DEFINE NAME STRUCT '{' members '}' "
+        s = StructDef()
+        s.name = p[2];
+        s.members = p[5];
+        p[0] = s;
 
-    def p_s_member_list(p):
-        ''' s_member_list : param s_member_list 
-                        | param 
-        '''
+    def p_members(p):
+        ' members : members param '
+        p[1].append(p[2]);
+        p[0] = p[1];
+
+    def p_member_param(p):
+        ' members : param '
+        if p[1] != None:
+            p[0] = [p[1]];
+        else:
+            p[0] = [];
 
     # function decl
     def p_function(p):
         "function : FUNC NAME '(' paramlist ')' return "
-        print("function name :",p[2]);
+        func = FuncDef();
+        func.name = p[2];
+        func.params = p[4];
+        func.ret_type = p[6];
+        p[0] = func;
+
 
     def p_paramlist(p):
         " paramlist : paramlist ',' param "
-
-    def p_paramlist_none(p):
-        " paramlist : "
+        p[1].append(p[3]);
+        p[0] = p[1];
 
     def p_paramlist_last(p):
         " paramlist : param "
+        if p[1] != None:
+            p[0] = [p[1]];
+        else:
+            p[0] = [];
         
     def p_param(p):
         " param : NAME ':' TYPE "
-        print("name:",p[1],"type:",p[3]);
+        t = Type();
+        t.type_name = p[3];
+
+        param = Param();
+        param.type = t;
+        param.name = p[1];
+
+        p[0] = param;
+
+    def p_param_none(p):
+        " param : "
+        p[0] = None;
 
     def p_return(p):
         "return : TYPE"
-        print("return type :",p[1]);
+        t = Type();
+        t.type_name = p[1];
+        p[0] = t;
 
     def p_return_none(p):
         "return : "
-        print("no return type :");
+        p[0] = NullType;
 
     # error handle
     def p_error(p):
@@ -115,28 +193,19 @@ func Function3(a:int) int
 
 func Function4(a:int) int 
 
+func Function5()
+
 type MyType struct {
-    a:int
-    c:string
-    d:double
-    e:bin
+    a :int
+    c :string
+    d :double
+    e :bin
 }
 ''')
 
 my_lex = func_token.lexer;
 
-PrintTokens = True
-my_lex.input(data)
-if PrintTokens == True :
-    my_lex.input(data)
-    while True:
-        tok = my_lex.token()
-        if not tok:
-            print("error occr")
-            break
-        print(tok)
-    print("token parse ok!");
-
+# PrintTokens(data,my_lex);
 
 import logging
 logging.basicConfig(

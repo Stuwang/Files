@@ -106,6 +106,7 @@ yacc.yacc()
 
 # this is a function to debug
 def PrintTokens(data,lex = lex.lexer):
+    print("======== start print token  ========")
     PrintTokens = True
     lex.input(data)
     if PrintTokens == True :
@@ -117,7 +118,7 @@ def PrintTokens(data,lex = lex.lexer):
                 break
             print(tok)
         print("token parse ok!");
-    print("============================")
+    print("======== end print token ===========")
 
 PrintTokens("1+(2+3)");
 
