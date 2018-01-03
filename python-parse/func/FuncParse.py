@@ -123,6 +123,10 @@ class Program:
         self.add_type(Type("string"));
         self.add_type(Type("bin"));
 
+    def Check():
+        
+        return "";
+
     def GenCode(self,writer):
         # no check
         writer.write("#ifndef _GEN_H_\n");

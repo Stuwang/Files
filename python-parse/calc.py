@@ -58,10 +58,12 @@ names = { }
 def p_statement_assign(p):
     'statement : NAME "=" expression'
     names[p[1]] = p[3]
+    p[0] = p[3];
 
 def p_statement_expr(p):
     'statement : expression'
-    print(p[1])
+    # print(p[1])
+    p[0] = p[1];
 
 def p_expression_binop(p):
     '''expression : expression '+' expression
@@ -120,7 +122,7 @@ def PrintTokens(data,lex = lex.lexer):
         print("token parse ok!");
     print("======== end print token ===========")
 
-PrintTokens("1+(2+3)");
+# PrintTokens("1+(2+3)");
 
 while 1:
     try:
@@ -128,4 +130,5 @@ while 1:
     except EOFError:
         break
     if not s: continue
-    yacc.parse(s)
+    result = yacc.parse(s)
+    print(result);
