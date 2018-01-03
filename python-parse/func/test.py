@@ -22,9 +22,20 @@ def test_exception():
 	finally:
 		print("finally");
 
+def write_file():
+	file_object = open('testfile.txt', 'w')
+	file_object.write("#ifndef __");
+	file_object.close( )
+
+def test_range():
+	for x in range(1,10):
+		print(x," ");
+
 def main():
 	# test_class_assign();
-	test_exception();
+	# test_exception();
+	# write_file();
+	test_range();
 	pass
 
 if __name__ == '__main__':
