@@ -10,7 +10,7 @@
 
 //     public static getPosts() {
 //         return new Promise<Number>((resolve) => {
-//             setTimeout(() => { 
+//             setTimeout(() => {
 //                 resolve(10);
 //                 console.log("getPosts");
 //             }, 3000);
@@ -30,15 +30,21 @@
 // }
 
 
-class Map{
-    [key:string]:any;
+class Map {
+    [key: string]: any;
 }
 
 class Program {
 
+    public static Init() {
+        window.onload = () => {
+            Program.Run();
+        }
+    }
+
     static tableInited_: Boolean = false;
 
-    public static test_nap(){
+    public static test_nap() {
         let m = new Map();
         m["a"] = 1;
         m["b"] = 2;
@@ -46,8 +52,8 @@ class Program {
         m["d"] = 4;
         m["e"] = 5;
 
-        for(var i in m){
-            console.log(i," ",m[i]);
+        for (var i in m) {
+            console.log(i, " ", m[i]);
         }
     }
 
@@ -57,12 +63,12 @@ class Program {
         Program.test_nap();
     }
 
-    public static TestDom(){
+    public static TestDom() {
         let table_sub = document.getElementById("table1_sub") as HTMLInputElement;
         table_sub.onclick = (e) => {
             if (!Program.tableInited_) {
                 Program.AddTable();
-                    Program.tableInited_ = true;
+                Program.tableInited_ = true;
             }
         };
         table_sub.click();
@@ -179,6 +185,3 @@ class LiveData<T>{
     }
 }
 
-window.onload = () => {
-    Program.Run();
-}
