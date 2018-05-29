@@ -13,7 +13,6 @@ macro_rules! create_function {
     )
 }
 
-
 // 借助上述宏来创建名为 `foo` 和 `bar` 的函数。
 create_function!(foo);
 create_function!(bar);
@@ -37,14 +36,12 @@ macro_rules! find_min {
     ($x:expr) => ($x);
     // `$x` 后面跟着至少一个 `$y,`
     ($x:expr, $($y:expr),+) => (
-        // 对尾部的 `$y` 调用 `find_min!` 
+        // 对尾部的 `$y` 调用 `find_min!`
         std::cmp::min($x, find_min!($($y),+))
     )
 }
 
-
 pub fn example() {
-
     foo();
     bar();
 
