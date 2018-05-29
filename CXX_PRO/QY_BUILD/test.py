@@ -119,7 +119,7 @@ def map_search():
 
 def test():
     map_search();
-    print((1,1) == (1,1))
+    print((1,1) == (1,1));
     # study_date_time();
     pass;
 

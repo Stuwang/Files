@@ -1,0 +1,18 @@
+﻿<Window x:Class="WpfStudy.ScrollViewerWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfStudy"
+        mc:Ignorable="d"
+        Title="ScrollViewerWindow" Height="400" Width="500" Loaded="Window_Loaded">
+    <Grid>
+        <StackPanel>
+            <ScrollViewer Name="scroll" Height="310" Width="410"
+                          HorizontalScrollBarVisibility="Auto" 
+                          VerticalScrollBarVisibility="Visible" Margin="0,0,67,0" >
+                <TextBlock  Name="txtShowArticle"  Foreground="Gray" />
+            </ScrollViewer>
+        </StackPanel>
+    </Grid>
+</Window>
