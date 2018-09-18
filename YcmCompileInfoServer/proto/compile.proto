@@ -1,0 +1,29 @@
+syntax = "proto3";
+package compile;
+
+message QueryFileFlagsReq{
+	string file = 1;
+	uint32 id = 2; 
+}
+
+message QueryFileFlagsRep{
+	uint32 status = 1;
+	string msg = 2;
+
+	string flags = 3;
+}
+
+message AddCompileDbReq{
+	string path = 2;
+	string content = 1;
+}
+
+message AddCompileDbRep{
+	uint32 status = 1;
+	string msg = 2;	
+}
+
+service CompileOptionServer{
+	rpc QueryFileFlags(QueryFileFlagsReq) returns (QueryFileFlagsRep);
+	rpc AddCompileDb(AddCompileDbReq) returns (AddCompileDbRep);
+}
