@@ -18,6 +18,6 @@ fn main() {
 
     // UseAutoDes();
     // UseTraits::Example();
-    // marco::example();
-    link_pre::test();
+    marco::example();
+    // link_pre::test();
 }
